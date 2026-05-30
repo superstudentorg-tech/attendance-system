@@ -2573,3 +2573,13 @@ prisma:query SELECT `main`.`Employee`.`id`, `main`.`Employee`.`name`, `main`.`Em
  GET /api/admin/approval-settings?companyId=cmpskwd1j0000nlerppec11if 200 in 8ms (compile: 2ms, render: 6ms)
  GET / 200 in 32ms (compile: 3ms, render: 29ms)
  GET / 200 in 32ms (compile: 3ms, render: 30ms)
+ GET / 200 in 39ms (compile: 4ms, render: 36ms)
+ GET / 200 in 39ms (compile: 3ms, render: 36ms)
+✓ Compiled in 161ms
+✓ Compiled in 175ms
+✓ Compiled in 175ms
+✓ Compiled in 165ms
+ GET / 200 in 153ms (compile: 48ms, render: 105ms)
+ GET / 200 in 45ms (compile: 3ms, render: 42ms)
+ GET / 200 in 64ms (compile: 5ms, render: 59ms)
+ GET / 200 in 36ms (compile: 3ms, render: 33ms)

@@ -35,6 +35,32 @@ export async function POST(request: Request) {
     const employee = await db.employee.findUnique({ where: { id: employeeId } });
     if (!employee) return NextResponse.json({ error: 'الموظف غير موجود' }, { status: 404 });
 
+    // Admin auto-approves their own requests
+    if (employee.role === 'admin') {
+      const permission = await db.permissionRequest.create({
+        data: {
+          employeeId, type, date: new Date(date), timeFrom, timeTo, reason,
+          status: 'approved', currentLevel: 2,
+          level1AssignedToId: employee.id,
+          level1ApprovedBy: employee.name,
+          level1ApprovedAt: new Date(),
+          level2AssignedToId: employee.id,
+          level2ApprovedBy: employee.name,
+          level2ApprovedAt: new Date(),
+        },
+        include: {
+          employee: { select: { name: true } },
+          level1AssignedTo: { select: { name: true, position: true } },
+          level2AssignedTo: { select: { name: true, position: true } },
+        }
+      });
+
+      return NextResponse.json({
+        message: `تم تقديم واعتماد طلب الإذن تلقائياً (مدير النظام)`,
+        permission
+      });
+    }
+
     const level1AssignedToId = employee.managerId;
     if (!level1AssignedToId) {
       return NextResponse.json({ error: 'لا يوجد مدير مباشر معين لك. تواصل مع الإدارة' }, { status: 400 });
@@ -45,7 +71,7 @@ export async function POST(request: Request) {
     });
     const level2AssignedToId = level2Setting?.approverId || null;
 
-    const permission = await db.permissionRequest.create({
+    const permRequest = await db.permissionRequest.create({
       data: {
         employeeId, type, date: new Date(date), timeFrom, timeTo, reason,
         status: 'pending_level1', currentLevel: 1,
@@ -59,8 +85,8 @@ export async function POST(request: Request) {
     });
 
     return NextResponse.json({
-      message: `تم تقديم الطلب - المرحلة 1: ${permission.level1AssignedTo?.name || 'المدير المباشر'}${level2AssignedToId ? ` → المرحلة 2: ${permission.level2AssignedTo?.name || ''}` : ''}`,
-      permission
+      message: `تم تقديم الطلب - المرحلة 1: ${permRequest.level1AssignedTo?.name || 'المدير المباشر'}${level2AssignedToId ? ` → المرحلة 2: ${permRequest.level2AssignedTo?.name || ''}` : ''}`,
+      permission: permRequest
     });
   } catch (error) { console.error(error); return NextResponse.json({ error: 'حدث خطأ' }, { status: 500 }); }
 }

@@ -100,6 +100,7 @@ function StatusBadge({ status }: { status: string }) {
     pending_level1: { label: 'بانتظار المدير المباشر', cls: 'bg-amber-100 text-amber-800 hover:bg-amber-100' },
     pending_level2: { label: 'بانتظار المعتمد الثاني', cls: 'bg-orange-100 text-orange-800 hover:bg-orange-100' },
     approved: { label: 'معتمد', cls: 'bg-emerald-100 text-emerald-800 hover:bg-emerald-100' },
+    auto_approved: { label: 'معتمد تلقائياً', cls: 'bg-emerald-100 text-emerald-800 hover:bg-emerald-100' },
     rejected: { label: 'مرفوض', cls: 'bg-red-100 text-red-800 hover:bg-red-100' },
     present: { label: 'حاضر', cls: 'bg-emerald-100 text-emerald-800 hover:bg-emerald-100' },
     late: { label: 'متأخر', cls: 'bg-amber-100 text-amber-800 hover:bg-amber-100' },
@@ -206,11 +207,9 @@ export default function AttendanceApp() {
 
   // Setup
   const [showSetup, setShowSetup] = useState(false)
-  const [setupStep, setSetupStep] = useState(0)
   const [setupForm, setSetupForm] = useState({
     name: '', workStart: '09:00', workEnd: '17:00',
     adminName: '', adminEmail: '', adminPassword: 'admin123',
-    branches: [{ name: '', address: '', latitude: '', longitude: '', radius: '200' }]
   })
 
   // Attendance
@@ -335,7 +334,7 @@ export default function AttendanceApp() {
 
   // Setup
   const handleSetup = async () => {
-    if (!setupForm.name || !setupForm.adminName || !setupForm.adminEmail || !setupForm.branches[0]?.name) {
+    if (!setupForm.name || !setupForm.adminName || !setupForm.adminEmail) {
       toast({ title: 'خطأ', description: 'أكمل جميع البيانات المطلوبة', variant: 'destructive' }); return
     }
     setIsLoading(true)
@@ -351,10 +350,6 @@ export default function AttendanceApp() {
     } catch { toast({ title: 'خطأ', variant: 'destructive' }) }
     finally { setIsLoading(false) }
   }
-
-  const addSetupBranch = () => setSetupForm(p => ({ ...p, branches: [...p.branches, { name: '', address: '', latitude: '', longitude: '', radius: '200' }] }))
-  const removeSetupBranch = (i: number) => setSetupForm(p => ({ ...p, branches: p.branches.filter((_, idx) => idx !== i) }))
-  const updateSetupBranch = (i: number, field: string, value: string) => setSetupForm(p => ({ ...p, branches: p.branches.map((b, idx) => idx === i ? { ...b, [field]: value } : b) }))
 
   // Check in/out
   const handleCheckIn = async () => {
@@ -503,71 +498,37 @@ export default function AttendanceApp() {
               <Building2 className="w-8 h-8 text-white" />
             </div>
             <CardTitle className="text-xl font-bold text-emerald-800">تأسيس شركة جديدة</CardTitle>
-            <CardDescription>الخطوة {setupStep + 1} من 3</CardDescription>
+            <CardDescription>أنشئ شركتك وسجّل كأدمن النظام</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
-            {setupStep === 0 && (
-              <>
-                <div className="space-y-2">
-                  <Label>اسم الشركة</Label>
-                  <Input value={setupForm.name} onChange={e => setSetupForm(p => ({ ...p, name: e.target.value }))} placeholder="مثال: شركة النخبة للأعمال" />
-                </div>
-                <div className="grid grid-cols-2 gap-3">
-                  <div className="space-y-2"><Label>بداية الدوام</Label><Input type="time" value={setupForm.workStart} onChange={e => setSetupForm(p => ({ ...p, workStart: e.target.value }))} /></div>
-                  <div className="space-y-2"><Label>نهاية الدوام</Label><Input type="time" value={setupForm.workEnd} onChange={e => setSetupForm(p => ({ ...p, workEnd: e.target.value }))} /></div>
-                </div>
-                <div className="space-y-2"><Label>اسم مدير النظام</Label><Input value={setupForm.adminName} onChange={e => setSetupForm(p => ({ ...p, adminName: e.target.value }))} placeholder="الاسم الكامل" /></div>
-                <div className="space-y-2"><Label>بريد مدير النظام</Label><Input type="email" value={setupForm.adminEmail} onChange={e => setSetupForm(p => ({ ...p, adminEmail: e.target.value }))} placeholder="admin@company.com" /></div>
-                <div className="space-y-2"><Label>كلمة مرور المدير</Label><Input value={setupForm.adminPassword} onChange={e => setSetupForm(p => ({ ...p, adminPassword: e.target.value }))} /></div>
-              </>
-            )}
-            {setupStep === 1 && (
-              <>
-                <p className="text-sm text-muted-foreground mb-2">أضف فروع الشركة (ممكن أكثر من فرع)</p>
-                {setupForm.branches.map((b, i) => (
-                  <Card key={i} className="border border-emerald-200">
-                    <CardContent className="p-3 space-y-2">
-                      <div className="flex items-center justify-between">
-                        <span className="text-sm font-bold text-emerald-700">فرع {i + 1}</span>
-                        {setupForm.branches.length > 1 && <Button variant="ghost" size="icon" className="h-7 w-7 text-red-500" onClick={() => removeSetupBranch(i)}><Trash2 className="w-3 h-3" /></Button>}
-                      </div>
-                      <Input placeholder="اسم الفرع" value={b.name} onChange={e => updateSetupBranch(i, 'name', e.target.value)} />
-                      <Input placeholder="العنوان (اختياري)" value={b.address} onChange={e => updateSetupBranch(i, 'address', e.target.value)} />
-                      <div className="grid grid-cols-2 gap-2">
-                        <Input placeholder="خط العرض" type="number" step="any" value={b.latitude} onChange={e => updateSetupBranch(i, 'latitude', e.target.value)} />
-                        <Input placeholder="خط الطول" type="number" step="any" value={b.longitude} onChange={e => updateSetupBranch(i, 'longitude', e.target.value)} />
-                      </div>
-                      <Input placeholder="النطاق (متر)" type="number" value={b.radius} onChange={e => updateSetupBranch(i, 'radius', e.target.value)} />
-                    </CardContent>
-                  </Card>
-                ))}
-                <Button variant="outline" className="w-full border-dashed border-emerald-300 text-emerald-600" onClick={addSetupBranch}>
-                  <Plus className="w-4 h-4 ml-1" /> إضافة فرع آخر
-                </Button>
-              </>
-            )}
-            {setupStep === 2 && (
-              <div className="text-center space-y-4">
-                <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto">
-                  <CheckCircle2 className="w-8 h-8 text-emerald-600" />
-                </div>
-                <div>
-                  <p className="font-bold text-lg">{setupForm.name}</p>
-                  <p className="text-sm text-muted-foreground">{setupForm.branches.length} فرع • مدير: {setupForm.adminName}</p>
-                  <p className="text-sm text-muted-foreground">ساعات العمل: {setupForm.workStart} - {setupForm.workEnd}</p>
-                </div>
-              </div>
-            )}
-            <div className="flex gap-2">
-              {setupStep > 0 && <Button variant="outline" className="flex-1" onClick={() => setSetupStep(s => s - 1)}>السابق</Button>}
-              {setupStep < 2 ? (
-                <Button className="flex-1 bg-emerald-600 hover:bg-emerald-700" onClick={() => setSetupStep(s => s + 1)}>التالي</Button>
-              ) : (
-                <Button className="flex-1 bg-emerald-600 hover:bg-emerald-700" onClick={handleSetup} disabled={isLoading}>
-                  {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : 'إنشاء الشركة'}
-                </Button>
-              )}
+            <div className="bg-emerald-50 rounded-xl p-3 text-xs text-emerald-700">
+              <p className="font-semibold mb-1">سريع وسهل!</p>
+              <p>هتدخل بيانات الشركة وبعدين تقدر تضيف فروع وموظفين من لوحة التحكم.</p>
             </div>
+            <div className="space-y-2">
+              <Label>اسم الشركة</Label>
+              <Input value={setupForm.name} onChange={e => setSetupForm(p => ({ ...p, name: e.target.value }))} placeholder="مثال: شركة النخبة للأعمال" />
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              <div className="space-y-2"><Label>بداية الدوام</Label><Input type="time" value={setupForm.workStart} onChange={e => setSetupForm(p => ({ ...p, workStart: e.target.value }))} /></div>
+              <div className="space-y-2"><Label>نهاية الدوام</Label><Input type="time" value={setupForm.workEnd} onChange={e => setSetupForm(p => ({ ...p, workEnd: e.target.value }))} /></div>
+            </div>
+            <Separator />
+            <div className="space-y-2">
+              <Label>اسم مدير النظام</Label>
+              <Input value={setupForm.adminName} onChange={e => setSetupForm(p => ({ ...p, adminName: e.target.value }))} placeholder="الاسم الكامل" />
+            </div>
+            <div className="space-y-2">
+              <Label>بريد مدير النظام</Label>
+              <Input type="email" value={setupForm.adminEmail} onChange={e => setSetupForm(p => ({ ...p, adminEmail: e.target.value }))} placeholder="admin@company.com" />
+            </div>
+            <div className="space-y-2">
+              <Label>كلمة مرور المدير</Label>
+              <Input value={setupForm.adminPassword} onChange={e => setSetupForm(p => ({ ...p, adminPassword: e.target.value }))} />
+            </div>
+            <Button className="w-full bg-emerald-600 hover:bg-emerald-700 h-12" onClick={handleSetup} disabled={isLoading}>
+              {isLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : <><Building2 className="w-5 h-5 ml-2" />إنشاء الشركة</>}
+            </Button>
             <Button variant="ghost" className="w-full text-gray-500" onClick={() => setShowSetup(false)}>إلغاء والرجوع</Button>
           </CardContent>
         </Card>

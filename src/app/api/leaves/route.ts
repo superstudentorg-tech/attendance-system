@@ -35,6 +35,32 @@ export async function POST(request: Request) {
     const employee = await db.employee.findUnique({ where: { id: employeeId } });
     if (!employee) return NextResponse.json({ error: 'الموظف غير موجود' }, { status: 404 });
 
+    // Admin auto-approves their own requests
+    if (employee.role === 'admin') {
+      const leave = await db.leaveRequest.create({
+        data: {
+          employeeId, type, startDate: new Date(startDate), endDate: new Date(endDate), reason,
+          status: 'approved', currentLevel: 2,
+          level1AssignedToId: employee.id,
+          level1ApprovedBy: employee.name,
+          level1ApprovedAt: new Date(),
+          level2AssignedToId: employee.id,
+          level2ApprovedBy: employee.name,
+          level2ApprovedAt: new Date(),
+        },
+        include: {
+          employee: { select: { name: true } },
+          level1AssignedTo: { select: { name: true, position: true } },
+          level2AssignedTo: { select: { name: true, position: true } },
+        }
+      });
+
+      return NextResponse.json({
+        message: `تم تقديم واعتماد طلب الاجازة تلقائياً (مدير النظام)`,
+        leave
+      });
+    }
+
     // Level 1: Direct manager
     const level1AssignedToId = employee.managerId;
     if (!level1AssignedToId) {
@@ -47,7 +73,7 @@ export async function POST(request: Request) {
     });
     const level2AssignedToId = level2Setting?.approverId || null;
 
-    const leave = await db.leaveRequest.create({
+    const leaveRequest = await db.leaveRequest.create({
       data: {
         employeeId, type, startDate: new Date(startDate), endDate: new Date(endDate), reason,
         status: 'pending_level1', currentLevel: 1,
@@ -61,8 +87,8 @@ export async function POST(request: Request) {
     });
 
     return NextResponse.json({
-      message: `تم تقديم الطلب - المرحلة 1: ${leave.level1AssignedTo?.name || 'المدير المباشر'}${level2AssignedToId ? ` → المرحلة 2: ${leave.level2AssignedTo?.name || ''}` : ''}`,
-      leave
+      message: `تم تقديم الطلب - المرحلة 1: ${leaveRequest.level1AssignedTo?.name || 'المدير المباشر'}${level2AssignedToId ? ` → المرحلة 2: ${leaveRequest.level2AssignedTo?.name || ''}` : ''}`,
+      leave: leaveRequest
     });
   } catch (error) { console.error(error); return NextResponse.json({ error: 'حدث خطأ' }, { status: 500 }); }
 }

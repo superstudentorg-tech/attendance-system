@@ -1,37 +1,24 @@
 ---
 Task ID: 1
-Agent: Main Agent
-Task: Build complete attendance fingerprint system with GPS, leaves, permissions, and admin panel
+Agent: Main
+Task: تبسيط نظام تأسيس الشركة - أدمن النظام فقط
 
 Work Log:
-- Initialized Next.js project with fullstack-dev skill
-- Created Prisma schema with Company, Branch, Employee, Attendance, LeaveRequest, PermissionRequest models
-- Pushed schema to SQLite database
-- Created seed API with sample company, 3 branches, and 5 employees
-- Created auth login API with email/password
-- Created attendance check-in API with GPS distance verification (Haversine formula)
-- Created attendance check-out API with GPS verification
-- Created today attendance and history APIs
-- Created leaves API (GET + POST)
-- Created permissions API (GET + POST)
-- Created admin branches API (GET, POST, PUT, DELETE)
-- Created admin employees API (GET, POST, PUT, DELETE)
-- Created admin approvals API (approve/reject leaves and permissions)
-- Built complete mobile-first RTL Arabic UI with:
-  - Login screen with seed data option
-  - Attendance tab with fingerprint GPS check-in/check-out
-  - Leave requests tab with submission dialog
-  - Permission requests tab with submission dialog
-  - Admin panel with branches, employees, and approvals management
-  - Bottom navigation bar
-  - Real-time clock display
-  - Working hours calculation
-  - GPS location accuracy display
-- All APIs tested and working correctly
+- فحص جميع ملفات المشروع الحالية
+- تحديث API الشركة (/api/company/route.ts) لإنشاء فرع افتراضي "المقر الرئيسي" تلقائياً
+- تحديث API الإجازات (/api/leaves/route.ts) للاعتماد التلقائي لطلبات الأدمن
+- تحديث API الأذونات (/api/permissions/route.ts) للاعتماد التلقائي لطلبات الأدمن
+- تبسيط واجهة تأسيس الشركة من 3 خطوات لخطوة واحدة فقط
+- حذف خطوات الفروع من واجهة التأسيس
+- إضافة حالة "معتمد تلقائياً" في StatusBadge
+- إضافة تحقق من عدم تكرار الشركة
+- اختبار بناء المشروع بنجاح
+- اختبار إنشاء شركة مع أدمن فقط
+- اختبار تسجيل دخول الأدمن
+- اختبار تقديم واعتماد تلقائي لطلب اجازة كأدمن
 
 Stage Summary:
-- Complete attendance system built and running on port 3000
-- GPS-based check-in/check-out with distance verification
-- Leave and permission request workflows
-- Admin dashboard with full management capabilities
-- Mobile-responsive Arabic RTL design
+- تم تبسيط واجهة التأسيس لخطوة واحدة فقط (اسم الشركة + بيانات الأدمن)
+- يتم إنشاء فرع "المقر الرئيسي" تلقائياً بنطاق 500 متر
+- طلبات الأدمن (اجازات/أذونات) تعتمد تلقائياً بدون الحاجة لمدير مباشر
+- الأدمن يقدر يضيف فروع وموظفين من لوحة التحكم بعد التأسيس
