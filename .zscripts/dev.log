@@ -658,3 +658,85 @@ Import trace:
 
 
  GET / 500 in 15ms (compile: 7ms, render: 8ms)
+⨯ ./package.json:7:21
+Error parsing package.json file
+[0m [90m  5 |[39m   [32m"scripts"[39m[33m:[39m {
+ [90m  6 |[39m     [32m"dev"[39m[33m:[39m [32m"next dev -p 3000 2>&1 | tee dev.log"[39m[33m,[39m
+[31m[1m>[22m[39m[90m  7 |[39m     [32m"build"[39m[33m:[39m [32m"if [ "[39m$VERCEL[32m" = "[39m[35m1[39m[32m" ]; then cp prisma/vercel/schema.prisma prisma/schema.prisma; fi && prisma generate && next build"[39m[33m,[39m
+ [90m    |[39m                     [31m[1m^[22m[39m
+ [90m  8 |[39m     [32m"start"[39m[33m:[39m [32m"next start"[39m[33m,[39m
+ [90m  9 |[39m     [32m"lint"[39m[33m:[39m [32m"eslint ."[39m[33m,[39m
+ [90m 10 |[39m     [32m"db:push"[39m[33m:[39m [32m"prisma db push"[39m[33m,[39m[0m
+
+package.json is not parseable: invalid JSON: expected `,` or `}` at line 7 column 21
+
+
+
+./src/app/globals.css
+Error evaluating Node.js code
+CssSyntaxError: tailwindcss: /home/z/my-project/src/app/globals.css:1:1: /home/z/my-project/package.json (directory description file): SyntaxError: /home/z/my-project/package.json (directory description file): SyntaxError: Expected ',' or '}' after property value in JSON at position 167 (line 7 column 21)
+    [at Input.error (turbopack:///[project]/node_modules/postcss/lib/input.js:135:16)]
+    [at Root.error (turbopack:///[project]/node_modules/postcss/lib/node.js:146:32)]
+    [at Object.Once (/home/z/my-project/node_modules/@tailwindcss/postcss/dist/index.js:10:6911)]
+    [at process.processTicksAndRejections (node:internal/process/task_queues:104:5)]
+    [at async LazyResult.runAsync (turbopack:///[project]/node_modules/postcss/lib/lazy-result.js:293:11)]
+    [at async transform (turbopack:///[turbopack-node]/transforms/postcss.ts:70:34)]
+    [at async run (turbopack:///[turbopack-node]/ipc/evaluate.ts:92:23)]
+
+Import trace:
+  Client Component Browser:
+    ./src/app/globals.css [Client Component Browser]
+    ./src/app/layout.tsx [Server Component]
+
+
+ GET / 500 in 24ms (compile: 16ms, render: 8ms)
+✓ Compiled in 624ms
+ GET / 500 in 25ms (compile: 16ms, render: 9ms)
+✓ Compiled in 188ms
+ GET / 200 in 162ms (compile: 38ms, render: 124ms)
+✓ Compiled in 8.7s
+ GET /api/seed 500 in 112ms (compile: 96ms, render: 16ms)
+✓ Compiled in 331ms
+ GET / 200 in 63ms (compile: 39ms, render: 23ms)
+✓ Compiled in 250ms
+prisma:query SELECT `main`.`Company`.`id`, `main`.`Company`.`name`, `main`.`Company`.`logo`, `main`.`Company`.`workStart`, `main`.`Company`.`workEnd`, `main`.`Company`.`isSetup`, `main`.`Company`.`createdAt`, `main`.`Company`.`updatedAt` FROM `main`.`Company` WHERE 1=1 LIMIT ? OFFSET ?
+prisma:query INSERT INTO `main`.`Company` (`id`, `name`, `workStart`, `workEnd`, `isSetup`, `createdAt`, `updatedAt`) VALUES (?,?,?,?,?,?,?) RETURNING `id` AS `id`, `name` AS `name`, `logo` AS `logo`, `workStart` AS `workStart`, `workEnd` AS `workEnd`, `isSetup` AS `isSetup`, `createdAt` AS `createdAt`, `updatedAt` AS `updatedAt`
+prisma:query INSERT INTO `main`.`Branch` (`id`, `name`, `address`, `latitude`, `longitude`, `radius`, `companyId`, `createdAt`, `updatedAt`) VALUES (?,?,?,?,?,?,?,?,?) RETURNING `id` AS `id`, `name` AS `name`, `address` AS `address`, `latitude` AS `latitude`, `longitude` AS `longitude`, `radius` AS `radius`, `companyId` AS `companyId`, `createdAt` AS `createdAt`, `updatedAt` AS `updatedAt`
+prisma:query INSERT INTO `main`.`Branch` (`id`, `name`, `address`, `latitude`, `longitude`, `radius`, `companyId`, `createdAt`, `updatedAt`) VALUES (?,?,?,?,?,?,?,?,?) RETURNING `id` AS `id`, `name` AS `name`, `address` AS `address`, `latitude` AS `latitude`, `longitude` AS `longitude`, `radius` AS `radius`, `companyId` AS `companyId`, `createdAt` AS `createdAt`, `updatedAt` AS `updatedAt`
+prisma:query INSERT INTO `main`.`Branch` (`id`, `name`, `address`, `latitude`, `longitude`, `radius`, `companyId`, `createdAt`, `updatedAt`) VALUES (?,?,?,?,?,?,?,?,?) RETURNING `id` AS `id`, `name` AS `name`, `address` AS `address`, `latitude` AS `latitude`, `longitude` AS `longitude`, `radius` AS `radius`, `companyId` AS `companyId`, `createdAt` AS `createdAt`, `updatedAt` AS `updatedAt`
+prisma:query INSERT INTO `main`.`Employee` (`id`, `name`, `email`, `phone`, `position`, `department`, `role`, `password`, `branchId`, `companyId`, `createdAt`, `updatedAt`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?) RETURNING `id` AS `id`, `name` AS `name`, `email` AS `email`, `phone` AS `phone`, `position` AS `position`, `department` AS `department`, `role` AS `role`, `password` AS `password`, `branchId` AS `branchId`, `companyId` AS `companyId`, `managerId` AS `managerId`, `createdAt` AS `createdAt`, `updatedAt` AS `updatedAt`
+prisma:query INSERT INTO `main`.`Employee` (`id`, `name`, `email`, `phone`, `position`, `department`, `role`, `password`, `branchId`, `companyId`, `createdAt`, `updatedAt`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?) RETURNING `id` AS `id`, `name` AS `name`, `email` AS `email`, `phone` AS `phone`, `position` AS `position`, `department` AS `department`, `role` AS `role`, `password` AS `password`, `branchId` AS `branchId`, `companyId` AS `companyId`, `managerId` AS `managerId`, `createdAt` AS `createdAt`, `updatedAt` AS `updatedAt`
+prisma:query INSERT INTO `main`.`Employee` (`id`, `name`, `email`, `phone`, `position`, `department`, `role`, `password`, `branchId`, `companyId`, `createdAt`, `updatedAt`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?) RETURNING `id` AS `id`, `name` AS `name`, `email` AS `email`, `phone` AS `phone`, `position` AS `position`, `department` AS `department`, `role` AS `role`, `password` AS `password`, `branchId` AS `branchId`, `companyId` AS `companyId`, `managerId` AS `managerId`, `createdAt` AS `createdAt`, `updatedAt` AS `updatedAt`
+prisma:query BEGIN IMMEDIATE
+prisma:query INSERT INTO `main`.`Employee` (`id`, `name`, `email`, `phone`, `position`, `department`, `role`, `password`, `branchId`, `companyId`, `managerId`, `createdAt`, `updatedAt`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?), (?,?,?,?,?,?,?,?,?,?,?,?,?), (?,?,?,?,?,?,?,?,?,?,?,?,?), (?,?,?,?,?,?,?,?,?,?,?,?,?)
+prisma:query COMMIT
+prisma:query BEGIN IMMEDIATE
+prisma:query INSERT INTO `main`.`ApprovalSetting` (`id`, `companyId`, `category`, `requestType`, `approverId`, `createdAt`, `updatedAt`) VALUES (?,?,?,?,?,?,?), (?,?,?,?,?,?,?), (?,?,?,?,?,?,?), (?,?,?,?,?,?,?), (?,?,?,?,?,?,?), (?,?,?,?,?,?,?), (?,?,?,?,?,?,?), (?,?,?,?,?,?,?), (?,?,?,?,?,?,?), (?,?,?,?,?,?,?), (?,?,?,?,?,?,?)
+prisma:query COMMIT
+ GET /api/seed 200 in 134ms (compile: 65ms, render: 69ms)
+prisma:query SELECT `main`.`Employee`.`id`, `main`.`Employee`.`name`, `main`.`Employee`.`email`, `main`.`Employee`.`phone`, `main`.`Employee`.`position`, `main`.`Employee`.`department`, `main`.`Employee`.`role`, `main`.`Employee`.`password`, `main`.`Employee`.`branchId`, `main`.`Employee`.`companyId`, `main`.`Employee`.`managerId`, `main`.`Employee`.`createdAt`, `main`.`Employee`.`updatedAt` FROM `main`.`Employee` WHERE (`main`.`Employee`.`email` = ? AND 1=1) LIMIT ? OFFSET ?
+prisma:query SELECT `main`.`Branch`.`id`, `main`.`Branch`.`name`, `main`.`Branch`.`address`, `main`.`Branch`.`latitude`, `main`.`Branch`.`longitude`, `main`.`Branch`.`radius`, `main`.`Branch`.`companyId`, `main`.`Branch`.`createdAt`, `main`.`Branch`.`updatedAt` FROM `main`.`Branch` WHERE `main`.`Branch`.`id` IN (?) LIMIT ? OFFSET ?
+prisma:query SELECT `main`.`Company`.`id`, `main`.`Company`.`name`, `main`.`Company`.`logo`, `main`.`Company`.`workStart`, `main`.`Company`.`workEnd`, `main`.`Company`.`isSetup`, `main`.`Company`.`createdAt`, `main`.`Company`.`updatedAt` FROM `main`.`Company` WHERE `main`.`Company`.`id` IN (?) LIMIT ? OFFSET ?
+prisma:query SELECT `main`.`Branch`.`id`, `main`.`Branch`.`name`, `main`.`Branch`.`address`, `main`.`Branch`.`latitude`, `main`.`Branch`.`longitude`, `main`.`Branch`.`radius`, `main`.`Branch`.`companyId`, `main`.`Branch`.`createdAt`, `main`.`Branch`.`updatedAt` FROM `main`.`Branch` WHERE `main`.`Branch`.`companyId` IN (?) LIMIT ? OFFSET ?
+prisma:query SELECT `main`.`Employee`.`id`, `main`.`Employee`.`name`, `main`.`Employee`.`email`, `main`.`Employee`.`position`, `main`.`Employee`.`managerId` FROM `main`.`Employee` WHERE `main`.`Employee`.`managerId` IN (?) LIMIT ? OFFSET ?
+ POST /api/auth/login 200 in 57ms (compile: 47ms, render: 9ms)
+prisma:query SELECT `main`.`Employee`.`id`, `main`.`Employee`.`name`, `main`.`Employee`.`email`, `main`.`Employee`.`phone`, `main`.`Employee`.`position`, `main`.`Employee`.`department`, `main`.`Employee`.`role`, `main`.`Employee`.`password`, `main`.`Employee`.`branchId`, `main`.`Employee`.`companyId`, `main`.`Employee`.`managerId`, `main`.`Employee`.`createdAt`, `main`.`Employee`.`updatedAt` FROM `main`.`Employee` WHERE (`main`.`Employee`.`email` = ? AND 1=1) LIMIT ? OFFSET ?
+prisma:query SELECT `main`.`Branch`.`id`, `main`.`Branch`.`name`, `main`.`Branch`.`address`, `main`.`Branch`.`latitude`, `main`.`Branch`.`longitude`, `main`.`Branch`.`radius`, `main`.`Branch`.`companyId`, `main`.`Branch`.`createdAt`, `main`.`Branch`.`updatedAt` FROM `main`.`Branch` WHERE `main`.`Branch`.`id` IN (?) LIMIT ? OFFSET ?
+prisma:query SELECT `main`.`Company`.`id`, `main`.`Company`.`name`, `main`.`Company`.`logo`, `main`.`Company`.`workStart`, `main`.`Company`.`workEnd`, `main`.`Company`.`isSetup`, `main`.`Company`.`createdAt`, `main`.`Company`.`updatedAt` FROM `main`.`Company` WHERE `main`.`Company`.`id` IN (?) LIMIT ? OFFSET ?
+prisma:query SELECT `main`.`Branch`.`id`, `main`.`Branch`.`name`, `main`.`Branch`.`address`, `main`.`Branch`.`latitude`, `main`.`Branch`.`longitude`, `main`.`Branch`.`radius`, `main`.`Branch`.`companyId`, `main`.`Branch`.`createdAt`, `main`.`Branch`.`updatedAt` FROM `main`.`Branch` WHERE `main`.`Branch`.`companyId` IN (?) LIMIT ? OFFSET ?
+prisma:query SELECT `main`.`Employee`.`id`, `main`.`Employee`.`name`, `main`.`Employee`.`email` FROM `main`.`Employee` WHERE `main`.`Employee`.`id` IN (?) LIMIT ? OFFSET ?
+prisma:query SELECT `main`.`Employee`.`id`, `main`.`Employee`.`name`, `main`.`Employee`.`email`, `main`.`Employee`.`position`, `main`.`Employee`.`managerId` FROM `main`.`Employee` WHERE `main`.`Employee`.`managerId` IN (?) LIMIT ? OFFSET ?
+ POST /api/auth/login 200 in 9ms (compile: 3ms, render: 7ms)
+ GET /api/company 405 in 68ms (compile: 62ms, render: 7ms)
+ GET /api/admin/approval-settings?companyId= 400 in 228ms (compile: 221ms, render: 8ms)
+ GET /api/company 405 in 6ms (compile: 3ms, render: 3ms)
+ GET /api/company 405 in 8ms (compile: 3ms, render: 5ms)
+ GET /api/company 200 in 34ms (compile: 25ms, render: 9ms)
+prisma:query SELECT 1
+prisma:query SELECT `main`.`Company`.`id`, `main`.`Company`.`name`, `main`.`Company`.`logo`, `main`.`Company`.`workStart`, `main`.`Company`.`workEnd`, `main`.`Company`.`isSetup`, `main`.`Company`.`createdAt`, `main`.`Company`.`updatedAt` FROM `main`.`Company` WHERE 1=1 LIMIT ? OFFSET ?
+prisma:query SELECT `main`.`Branch`.`id`, `main`.`Branch`.`name`, `main`.`Branch`.`address`, `main`.`Branch`.`latitude`, `main`.`Branch`.`longitude`, `main`.`Branch`.`radius`, `main`.`Branch`.`companyId`, `main`.`Branch`.`createdAt`, `main`.`Branch`.`updatedAt` FROM `main`.`Branch` WHERE `main`.`Branch`.`companyId` IN (?) LIMIT ? OFFSET ?
+prisma:query SELECT `main`.`ApprovalSetting`.`id`, `main`.`ApprovalSetting`.`companyId`, `main`.`ApprovalSetting`.`category`, `main`.`ApprovalSetting`.`requestType`, `main`.`ApprovalSetting`.`approverId`, `main`.`ApprovalSetting`.`createdAt`, `main`.`ApprovalSetting`.`updatedAt` FROM `main`.`ApprovalSetting` WHERE `main`.`ApprovalSetting`.`companyId` = ? ORDER BY `main`.`ApprovalSetting`.`category` ASC, `main`.`ApprovalSetting`.`requestType` ASC LIMIT ? OFFSET ?
+prisma:query SELECT `main`.`Employee`.`id`, `main`.`Employee`.`name`, `main`.`Employee`.`position`, `main`.`Employee`.`department` FROM `main`.`Employee` WHERE `main`.`Employee`.`id` IN (?,?,?) LIMIT ? OFFSET ?
+ GET /api/admin/approval-settings?companyId=cmpskwd1j0000nlerppec11if 200 in 12ms (compile: 3ms, render: 9ms)
+ GET / 200 in 155ms (compile: 39ms, render: 116ms)
+ GET / 200 in 60ms (compile: 5ms, render: 55ms)

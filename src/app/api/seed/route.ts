@@ -3,22 +3,20 @@ import { NextResponse } from 'next/server';
 
 export async function GET() {
   try {
-    // Check if data already exists
     const existingCompany = await db.company.findFirst();
     if (existingCompany) {
       return NextResponse.json({ message: 'البيانات موجودة بالفعل', company: existingCompany });
     }
 
-    // Create company
     const company = await db.company.create({
       data: {
         name: 'شركة النخبة للأعمال',
         workStart: '09:00',
         workEnd: '17:00',
+        isSetup: true,
       }
     });
 
-    // Create branches
     const branch1 = await db.branch.create({
       data: {
         name: 'الفرع الرئيسي - القاهرة',
@@ -52,13 +50,13 @@ export async function GET() {
       }
     });
 
-    // Create admin employee
-    await db.employee.create({
+    // Admin
+    const admin = await db.employee.create({
       data: {
         name: 'مدير النظام',
         email: 'admin@company.com',
         phone: '01000000000',
-        position: 'مدير',
+        position: 'مدير عام',
         department: 'الإدارة',
         role: 'admin',
         password: 'admin123',
@@ -67,7 +65,37 @@ export async function GET() {
       }
     });
 
-    // Create sample employees
+    // HR Manager
+    const hrManager = await db.employee.create({
+      data: {
+        name: 'فاطمة حسن',
+        email: 'fatma@company.com',
+        phone: '01100000004',
+        position: 'مدير الموارد البشرية',
+        department: 'الموارد البشرية',
+        role: 'manager',
+        password: '123456',
+        branchId: branch1.id,
+        companyId: company.id,
+      }
+    });
+
+    // Finance Manager
+    const financeManager = await db.employee.create({
+      data: {
+        name: 'خالد إبراهيم',
+        email: 'khaled@company.com',
+        phone: '01100000005',
+        position: 'مدير المالية',
+        department: 'المالية',
+        role: 'manager',
+        password: '123456',
+        branchId: branch1.id,
+        companyId: company.id,
+      }
+    });
+
+    // Employees with managers
     await db.employee.createMany({
       data: [
         {
@@ -80,6 +108,7 @@ export async function GET() {
           password: '123456',
           branchId: branch1.id,
           companyId: company.id,
+          managerId: admin.id,
         },
         {
           name: 'سارة أحمد',
@@ -91,6 +120,7 @@ export async function GET() {
           password: '123456',
           branchId: branch1.id,
           companyId: company.id,
+          managerId: financeManager.id,
         },
         {
           name: 'محمد علي',
@@ -102,25 +132,44 @@ export async function GET() {
           password: '123456',
           branchId: branch2.id,
           companyId: company.id,
+          managerId: admin.id,
         },
         {
-          name: 'فاطمة حسن',
-          email: 'fatma@company.com',
-          phone: '01100000004',
-          position: 'مسؤولة موارد بشرية',
+          name: 'نور السيد',
+          email: 'nour@company.com',
+          phone: '01100000006',
+          position: 'أخصائية موارد بشرية',
           department: 'الموارد البشرية',
           role: 'employee',
           password: '123456',
           branchId: branch3.id,
           companyId: company.id,
+          managerId: hrManager.id,
         },
       ]
     });
 
-    return NextResponse.json({ 
-      message: 'تم إنشاء البيانات بنجاح',
+    // Approval settings - different approvers per type
+    await db.approvalSetting.createMany({
+      data: [
+        { companyId: company.id, category: 'leave', requestType: 'annual', approverId: hrManager.id },
+        { companyId: company.id, category: 'leave', requestType: 'sick', approverId: hrManager.id },
+        { companyId: company.id, category: 'leave', requestType: 'personal', approverId: admin.id },
+        { companyId: company.id, category: 'leave', requestType: 'unpaid', approverId: financeManager.id },
+        { companyId: company.id, category: 'leave', requestType: 'emergency', approverId: admin.id },
+        { companyId: company.id, category: 'leave', requestType: 'maternity', approverId: hrManager.id },
+        { companyId: company.id, category: 'permission', requestType: 'personal', approverId: hrManager.id },
+        { companyId: company.id, category: 'permission', requestType: 'late', approverId: hrManager.id },
+        { companyId: company.id, category: 'permission', requestType: 'early', approverId: hrManager.id },
+        { companyId: company.id, category: 'permission', requestType: 'errand', approverId: admin.id },
+        { companyId: company.id, category: 'permission', requestType: 'other', approverId: admin.id },
+      ]
+    });
+
+    return NextResponse.json({
+      message: 'تم إنشاء البيانات بنجاح مع إعدادات الاعتماد',
       company,
-      branches: [branch1, branch2, branch3]
+      managers: { admin: admin.name, hr: hrManager.name, finance: financeManager.name }
     });
   } catch (error) {
     console.error(error);

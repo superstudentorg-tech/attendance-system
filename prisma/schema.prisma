@@ -8,15 +8,17 @@ datasource db {
 }
 
 model Company {
-  id        String   @id @default(cuid())
-  name      String
-  logo      String?
-  workStart String   @default("09:00")
-  workEnd   String   @default("17:00")
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  branches  Branch[]
-  employees Employee[]
+  id               String            @id @default(cuid())
+  name             String
+  logo             String?
+  workStart        String            @default("09:00")
+  workEnd          String            @default("17:00")
+  isSetup          Boolean           @default(false)
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+  branches         Branch[]
+  employees        Employee[]
+  approvalSettings ApprovalSetting[]
 }
 
 model Branch {
@@ -35,23 +37,45 @@ model Branch {
 }
 
 model Employee {
-  id         String             @id @default(cuid())
-  name       String
-  email      String             @unique
-  phone      String?
-  position   String?
-  department String?
-  role       String             @default("employee")
-  password   String             @default("123456")
-  branchId   String
-  branch     Branch             @relation(fields: [branchId], references: [id], onDelete: Cascade)
-  companyId  String
-  company    Company            @relation(fields: [companyId], references: [id], onDelete: Cascade)
-  attendance Attendance[]
-  leaves     LeaveRequest[]
-  permissions PermissionRequest[]
-  createdAt  DateTime           @default(now())
-  updatedAt  DateTime           @updatedAt
+  id           String              @id @default(cuid())
+  name         String
+  email        String              @unique
+  phone        String?
+  position     String?
+  department   String?
+  role         String              @default("employee")
+  password     String              @default("123456")
+  branchId     String
+  branch       Branch              @relation(fields: [branchId], references: [id], onDelete: Cascade)
+  companyId    String
+  company      Company             @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  managerId    String?
+  manager      Employee?           @relation("ManagerSubordinate", fields: [managerId], references: [id], onDelete: SetNull)
+  subordinates Employee[]          @relation("ManagerSubordinate")
+  attendance   Attendance[]
+  leaves       LeaveRequest[]       @relation("EmployeeLeaves")
+  permissions  PermissionRequest[]  @relation("EmployeePermissions")
+  approvedLeaves     LeaveRequest[]      @relation("LeaveApprover")
+  approvedPermissions PermissionRequest[] @relation("PermissionApprover")
+  assignedLeaves     LeaveRequest[]      @relation("LeaveAssignedTo")
+  assignedPermissions PermissionRequest[] @relation("PermissionAssignedTo")
+  approvalSettings   ApprovalSetting[]    @relation("ApprovalApprover")
+  createdAt    DateTime            @default(now())
+  updatedAt    DateTime            @updatedAt
+}
+
+model ApprovalSetting {
+  id           String   @id @default(cuid())
+  companyId    String
+  company      Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  category     String   // "leave" or "permission"
+  requestType  String   // "annual", "sick", "personal", etc.
+  approverId   String
+  approver     Employee @relation("ApprovalApprover", fields: [approverId], references: [id], onDelete: Cascade)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@unique([companyId, category, requestType])
 }
 
 model Attendance {
@@ -76,32 +100,38 @@ model Attendance {
 }
 
 model LeaveRequest {
-  id          String    @id @default(cuid())
-  employeeId  String
-  employee    Employee  @relation(fields: [employeeId], references: [id], onDelete: Cascade)
-  type        String
-  startDate   DateTime
-  endDate     DateTime
-  reason      String
-  status      String    @default("pending")
-  approvedBy  String?
-  approvedAt  DateTime?
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  id            String    @id @default(cuid())
+  employeeId    String
+  employee      Employee  @relation("EmployeeLeaves", fields: [employeeId], references: [id], onDelete: Cascade)
+  type          String
+  startDate     DateTime
+  endDate       DateTime
+  reason        String
+  status        String    @default("pending")
+  assignedToId  String?
+  assignedTo    Employee? @relation("LeaveAssignedTo", fields: [assignedToId], references: [id], onDelete: SetNull)
+  approvedById  String?
+  approvedBy    Employee? @relation("LeaveApprover", fields: [approvedById], references: [id], onDelete: SetNull)
+  approvedAt    DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
 }
 
 model PermissionRequest {
-  id          String    @id @default(cuid())
-  employeeId  String
-  employee    Employee  @relation(fields: [employeeId], references: [id], onDelete: Cascade)
-  type        String
-  date        DateTime
-  timeFrom    String
-  timeTo      String
-  reason      String
-  status      String    @default("pending")
-  approvedBy  String?
-  approvedAt  DateTime?
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  id            String    @id @default(cuid())
+  employeeId    String
+  employee      Employee  @relation("EmployeePermissions", fields: [employeeId], references: [id], onDelete: Cascade)
+  type          String
+  date          DateTime
+  timeFrom      String
+  timeTo        String
+  reason        String
+  status        String    @default("pending")
+  assignedToId  String?
+  assignedTo    Employee? @relation("PermissionAssignedTo", fields: [assignedToId], references: [id], onDelete: SetNull)
+  approvedById  String?
+  approvedBy    Employee? @relation("PermissionApprover", fields: [approvedById], references: [id], onDelete: SetNull)
+  approvedAt    DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
 }

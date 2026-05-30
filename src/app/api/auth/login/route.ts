@@ -11,7 +11,12 @@ export async function POST(request: Request) {
 
     const employee = await db.employee.findUnique({
       where: { email },
-      include: { branch: true, company: true }
+      include: {
+        branch: true,
+        company: { include: { branches: true } },
+        manager: { select: { id: true, name: true, email: true } },
+        subordinates: { select: { id: true, name: true, email: true, position: true } },
+      }
     });
 
     if (!employee) {
@@ -22,7 +27,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'كلمة المرور غير صحيحة' }, { status: 401 });
     }
 
-    return NextResponse.json({ 
+    return NextResponse.json({
       employee: {
         id: employee.id,
         name: employee.name,
@@ -33,6 +38,8 @@ export async function POST(request: Request) {
         role: employee.role,
         branch: employee.branch,
         company: employee.company,
+        manager: employee.manager,
+        subordinates: employee.subordinates,
       }
     });
   } catch (error) {

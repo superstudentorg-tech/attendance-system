@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev -p 3000 2>&1 | tee dev.log",
-    "build": "if [ "$VERCEL" = "1" ]; then cp prisma/vercel/schema.prisma prisma/schema.prisma; fi && prisma generate && next build",
+    "build": "prisma generate && next build",
     "start": "next start",
     "lint": "eslint .",
     "db:push": "prisma db push",
