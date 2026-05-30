@@ -2588,3 +2588,5 @@ prisma:query SELECT `main`.`Employee`.`id`, `main`.`Employee`.`name`, `main`.`Em
  GET / 200 in 45ms (compile: 3ms, render: 41ms)
  GET / 200 in 45ms (compile: 3ms, render: 42ms)
  GET / 200 in 46ms (compile: 3ms, render: 42ms)
+ GET / 200 in 37ms (compile: 3ms, render: 34ms)
+ GET / 200 in 31ms (compile: 2ms, render: 28ms)
