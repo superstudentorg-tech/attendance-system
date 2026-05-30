@@ -1,0 +1,150 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Company {
+  id               String            @id @default(cuid())
+  name             String
+  logo             String?
+  workStart        String            @default("09:00")
+  workEnd          String            @default("17:00")
+  isSetup          Boolean           @default(false)
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+  branches         Branch[]
+  employees        Employee[]
+  approvalSettings ApprovalSetting[]
+}
+
+model Branch {
+  id        String   @id @default(cuid())
+  name      String
+  address   String?
+  latitude  Float
+  longitude Float
+  radius    Float    @default(100.0)
+  companyId String
+  company   Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  employees Employee[]
+  attendance Attendance[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Employee {
+  id                 String              @id @default(cuid())
+  name               String
+  email              String              @unique
+  phone              String?
+  position           String?
+  department         String?
+  role               String              @default("employee")
+  password           String              @default("123456")
+  branchId           String
+  branch             Branch              @relation(fields: [branchId], references: [id], onDelete: Cascade)
+  companyId          String
+  company            Company             @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  managerId          String?
+  manager            Employee?           @relation("ManagerSubordinate", fields: [managerId], references: [id], onDelete: SetNull)
+  subordinates       Employee[]          @relation("ManagerSubordinate")
+  attendance         Attendance[]
+  leaves             LeaveRequest[]      @relation("EmployeeLeaves")
+  permissions        PermissionRequest[] @relation("EmployeePermissions")
+  l1LeaveAssignments LeaveRequest[]      @relation("L1LeaveAssigned")
+  l2LeaveAssignments LeaveRequest[]      @relation("L2LeaveAssigned")
+  l1PermAssignments  PermissionRequest[] @relation("L1PermAssigned")
+  l2PermAssignments  PermissionRequest[] @relation("L2PermAssigned")
+  approvalSettings   ApprovalSetting[]   @relation("ApprovalSettingApprover")
+  createdAt          DateTime            @default(now())
+  updatedAt          DateTime            @updatedAt
+}
+
+model ApprovalSetting {
+  id          String   @id @default(cuid())
+  companyId   String
+  company     Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  category    String   // "leave" or "permission"
+  requestType String   // "annual", "sick", "personal", etc.
+  level       Int      @default(1) // 1 = first approval, 2 = second approval
+  approverId  String
+  approver    Employee @relation("ApprovalSettingApprover", fields: [approverId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([companyId, category, requestType, level])
+}
+
+model Attendance {
+  id              String    @id @default(cuid())
+  employeeId      String
+  employee        Employee  @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+  branchId        String
+  branch          Branch    @relation(fields: [branchId], references: [id], onDelete: Cascade)
+  workDate        DateTime
+  checkIn         DateTime?
+  checkOut        DateTime?
+  checkInLat      Float?
+  checkInLng      Float?
+  checkOutLat     Float?
+  checkOutLng     Float?
+  checkInDistance  Float?
+  checkOutDistance Float?
+  status          String    @default("present")
+  notes           String?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+}
+
+model LeaveRequest {
+  id                 String    @id @default(cuid())
+  employeeId         String
+  employee           Employee  @relation("EmployeeLeaves", fields: [employeeId], references: [id], onDelete: Cascade)
+  type               String
+  startDate          DateTime
+  endDate            DateTime
+  reason             String
+  status             String    @default("pending_level1")
+  currentLevel       Int       @default(1)
+  level1AssignedToId String?
+  level1AssignedTo   Employee? @relation("L1LeaveAssigned", fields: [level1AssignedToId], references: [id], onDelete: SetNull)
+  level1ApprovedBy   String?
+  level1ApprovedAt   DateTime?
+  level1Note         String?
+  level2AssignedToId String?
+  level2AssignedTo   Employee? @relation("L2LeaveAssigned", fields: [level2AssignedToId], references: [id], onDelete: SetNull)
+  level2ApprovedBy   String?
+  level2ApprovedAt   DateTime?
+  level2Note         String?
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+}
+
+model PermissionRequest {
+  id                 String    @id @default(cuid())
+  employeeId         String
+  employee           Employee  @relation("EmployeePermissions", fields: [employeeId], references: [id], onDelete: Cascade)
+  type               String
+  date               DateTime
+  timeFrom           String
+  timeTo             String
+  reason             String
+  status             String    @default("pending_level1")
+  currentLevel       Int       @default(1)
+  level1AssignedToId String?
+  level1AssignedTo   Employee? @relation("L1PermAssigned", fields: [level1AssignedToId], references: [id], onDelete: SetNull)
+  level1ApprovedBy   String?
+  level1ApprovedAt   DateTime?
+  level1Note         String?
+  level2AssignedToId String?
+  level2AssignedTo   Employee? @relation("L2PermAssigned", fields: [level2AssignedToId], references: [id], onDelete: SetNull)
+  level2ApprovedBy   String?
+  level2ApprovedAt   DateTime?
+  level2Note         String?
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+}

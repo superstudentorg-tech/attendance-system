@@ -1,17 +1,14 @@
 #!/bin/bash
-# Build script for Vercel deployment
-# This script switches Prisma to PostgreSQL schema before building
+set -e
 
-echo "🔄 Preparing for Vercel build..."
+# Copy PostgreSQL schema for Vercel deployment
+cp prisma/schema.prod.prisma prisma/schema.prisma
 
-# Copy PostgreSQL schema for Vercel
-cp prisma/vercel/schema.prisma prisma/schema.prisma
-
-echo "✅ PostgreSQL schema activated"
-echo "📦 Running prisma generate..."
+# Generate Prisma client
 npx prisma generate
 
-echo "🏗️ Building Next.js..."
-next build
+# Run migrations if available, otherwise push
+# npx prisma migrate deploy 2>/dev/null || npx prisma db push --accept-data-loss 2>/dev/null || true
 
-echo "✅ Build complete!"
+# Build Next.js
+npx next build
