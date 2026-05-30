@@ -7,98 +7,60 @@ export async function GET(request: Request) {
     const employeeId = searchParams.get('employeeId');
     const companyId = searchParams.get('companyId');
 
+    const includeOpts = {
+      employee: { select: { name: true, department: true, position: true } },
+      level1AssignedTo: { select: { id: true, name: true, position: true } },
+      level2AssignedTo: { select: { id: true, name: true, position: true } },
+    };
+
     if (employeeId) {
-      const permissions = await db.permissionRequest.findMany({
-        where: { employeeId },
-        include: {
-          employee: { select: { name: true, department: true } },
-          assignedTo: { select: { id: true, name: true, position: true } },
-          approvedBy: { select: { id: true, name: true } },
-        },
-        orderBy: { createdAt: 'desc' },
-      });
+      const permissions = await db.permissionRequest.findMany({ where: { employeeId }, include: includeOpts, orderBy: { createdAt: 'desc' } });
       return NextResponse.json({ permissions });
     }
-
     if (companyId) {
-      const permissions = await db.permissionRequest.findMany({
-        where: { employee: { companyId } },
-        include: {
-          employee: { select: { name: true, department: true, position: true } },
-          assignedTo: { select: { id: true, name: true, position: true } },
-          approvedBy: { select: { id: true, name: true } },
-        },
-        orderBy: { createdAt: 'desc' },
-      });
+      const permissions = await db.permissionRequest.findMany({ where: { employee: { companyId } }, include: includeOpts, orderBy: { createdAt: 'desc' } });
       return NextResponse.json({ permissions });
     }
-
     return NextResponse.json({ error: 'معرف الموظف أو الشركة مطلوب' }, { status: 400 });
-  } catch (error) {
-    console.error(error);
-    return NextResponse.json({ error: 'حدث خطأ' }, { status: 500 });
-  }
+  } catch (error) { console.error(error); return NextResponse.json({ error: 'حدث خطأ' }, { status: 500 }); }
 }
 
 export async function POST(request: Request) {
   try {
     const { employeeId, type, date, timeFrom, timeTo, reason } = await request.json();
-
     if (!employeeId || !type || !date || !timeFrom || !timeTo || !reason) {
       return NextResponse.json({ error: 'جميع البيانات مطلوبة' }, { status: 400 });
     }
 
-    const employee = await db.employee.findUnique({
-      where: { id: employeeId },
-    });
+    const employee = await db.employee.findUnique({ where: { id: employeeId } });
+    if (!employee) return NextResponse.json({ error: 'الموظف غير موجود' }, { status: 404 });
 
-    if (!employee) {
-      return NextResponse.json({ error: 'الموظف غير موجود' }, { status: 404 });
+    const level1AssignedToId = employee.managerId;
+    if (!level1AssignedToId) {
+      return NextResponse.json({ error: 'لا يوجد مدير مباشر معين لك. تواصل مع الإدارة' }, { status: 400 });
     }
 
-    // Find the approver based on approval settings
-    let assignedToId: string | null = null;
-    const approvalSetting = await db.approvalSetting.findUnique({
-      where: {
-        companyId_category_requestType: {
-          companyId: employee.companyId,
-          category: 'permission',
-          requestType: type,
-        }
-      }
+    const level2Setting = await db.approvalSetting.findUnique({
+      where: { companyId_category_requestType_level: { companyId: employee.companyId, category: 'permission', requestType: type, level: 2 } }
     });
-
-    if (approvalSetting) {
-      assignedToId = approvalSetting.approverId;
-    } else {
-      assignedToId = employee.managerId;
-    }
+    const level2AssignedToId = level2Setting?.approverId || null;
 
     const permission = await db.permissionRequest.create({
       data: {
-        employeeId,
-        type,
-        date: new Date(date),
-        timeFrom,
-        timeTo,
-        reason,
-        status: 'pending',
-        assignedToId,
+        employeeId, type, date: new Date(date), timeFrom, timeTo, reason,
+        status: 'pending_level1', currentLevel: 1,
+        level1AssignedToId, level2AssignedToId,
       },
       include: {
         employee: { select: { name: true } },
-        assignedTo: { select: { name: true, position: true } },
+        level1AssignedTo: { select: { name: true, position: true } },
+        level2AssignedTo: { select: { name: true, position: true } },
       }
     });
 
     return NextResponse.json({
-      message: assignedToId
-        ? `تم تقديم طلب الإذن بنجاح - تم توجيه الطلب إلى: ${permission.assignedTo?.name || 'المدير المباشر'}`
-        : 'تم تقديم طلب الإذن بنجاح',
+      message: `تم تقديم الطلب - المرحلة 1: ${permission.level1AssignedTo?.name || 'المدير المباشر'}${level2AssignedToId ? ` → المرحلة 2: ${permission.level2AssignedTo?.name || ''}` : ''}`,
       permission
     });
-  } catch (error) {
-    console.error(error);
-    return NextResponse.json({ error: 'حدث خطأ أثناء تقديم الطلب' }, { status: 500 });
-  }
+  } catch (error) { console.error(error); return NextResponse.json({ error: 'حدث خطأ' }, { status: 500 }); }
 }

@@ -576,3 +576,2000 @@ prisma:query SELECT `main`.`Employee`.`id`, `main`.`Employee`.`name`, `main`.`Em
  GET /api/admin/approval-settings?companyId=cmpskwd1j0000nlerppec11if 200 in 12ms (compile: 3ms, render: 9ms)
  GET / 200 in 155ms (compile: 39ms, render: 116ms)
  GET / 200 in 60ms (compile: 5ms, render: 55ms)
+ GET / 200 in 32ms (compile: 3ms, render: 29ms)
+✓ Compiled in 248ms
+ GET / 200 in 146ms (compile: 43ms, render: 103ms)
+prisma:query SELECT 1
+prisma:query SELECT `main`.`Company`.`id`, `main`.`Company`.`name`, `main`.`Company`.`logo`, `main`.`Company`.`workStart`, `main`.`Company`.`workEnd`, `main`.`Company`.`isSetup`, `main`.`Company`.`createdAt`, `main`.`Company`.`updatedAt` FROM `main`.`Company` WHERE 1=1 LIMIT ? OFFSET ?
+ GET /api/seed 200 in 35ms (compile: 26ms, render: 9ms)
+prisma:query SELECT `main`.`Company`.`id`, `main`.`Company`.`name`, `main`.`Company`.`logo`, `main`.`Company`.`workStart`, `main`.`Company`.`workEnd`, `main`.`Company`.`isSetup`, `main`.`Company`.`createdAt`, `main`.`Company`.`updatedAt` FROM `main`.`Company` WHERE 1=1 LIMIT ? OFFSET ?
+ GET /api/seed 200 in 10ms (compile: 3ms, render: 7ms)
+prisma:query SELECT 1
+prisma:query SELECT `main`.`Company`.`id`, `main`.`Company`.`name`, `main`.`Company`.`logo`, `main`.`Company`.`workStart`, `main`.`Company`.`workEnd`, `main`.`Company`.`isSetup`, `main`.`Company`.`createdAt`, `main`.`Company`.`updatedAt` FROM `main`.`Company` WHERE 1=1 LIMIT ? OFFSET ?
+prisma:query SELECT `main`.`Branch`.`id`, `main`.`Branch`.`name`, `main`.`Branch`.`address`, `main`.`Branch`.`latitude`, `main`.`Branch`.`longitude`, `main`.`Branch`.`radius`, `main`.`Branch`.`companyId`, `main`.`Branch`.`createdAt`, `main`.`Branch`.`updatedAt` FROM `main`.`Branch` WHERE `main`.`Branch`.`companyId` IN (?) LIMIT ? OFFSET ?
+ GET /api/company 200 in 16ms (compile: 4ms, render: 12ms)
+prisma:query SELECT `main`.`Employee`.`id`, `main`.`Employee`.`name`, `main`.`Employee`.`email`, `main`.`Employee`.`phone`, `main`.`Employee`.`position`, `main`.`Employee`.`department`, `main`.`Employee`.`role`, `main`.`Employee`.`password`, `main`.`Employee`.`branchId`, `main`.`Employee`.`companyId`, `main`.`Employee`.`managerId`, `main`.`Employee`.`createdAt`, `main`.`Employee`.`updatedAt` FROM `main`.`Employee` WHERE (`main`.`Employee`.`email` = ? AND 1=1) LIMIT ? OFFSET ?
+prisma:query SELECT `main`.`Branch`.`id`, `main`.`Branch`.`name`, `main`.`Branch`.`address`, `main`.`Branch`.`latitude`, `main`.`Branch`.`longitude`, `main`.`Branch`.`radius`, `main`.`Branch`.`companyId`, `main`.`Branch`.`createdAt`, `main`.`Branch`.`updatedAt` FROM `main`.`Branch` WHERE `main`.`Branch`.`id` IN (?) LIMIT ? OFFSET ?
+prisma:query SELECT `main`.`Company`.`id`, `main`.`Company`.`name`, `main`.`Company`.`logo`, `main`.`Company`.`workStart`, `main`.`Company`.`workEnd`, `main`.`Company`.`isSetup`, `main`.`Company`.`createdAt`, `main`.`Company`.`updatedAt` FROM `main`.`Company` WHERE `main`.`Company`.`id` IN (?) LIMIT ? OFFSET ?
+prisma:query SELECT `main`.`Branch`.`id`, `main`.`Branch`.`name`, `main`.`Branch`.`address`, `main`.`Branch`.`latitude`, `main`.`Branch`.`longitude`, `main`.`Branch`.`radius`, `main`.`Branch`.`companyId`, `main`.`Branch`.`createdAt`, `main`.`Branch`.`updatedAt` FROM `main`.`Branch` WHERE `main`.`Branch`.`companyId` IN (?) LIMIT ? OFFSET ?
+prisma:query SELECT `main`.`Employee`.`id`, `main`.`Employee`.`name`, `main`.`Employee`.`email` FROM `main`.`Employee` WHERE `main`.`Employee`.`id` IN (?) LIMIT ? OFFSET ?
+prisma:query SELECT `main`.`Employee`.`id`, `main`.`Employee`.`name`, `main`.`Employee`.`email`, `main`.`Employee`.`position`, `main`.`Employee`.`managerId` FROM `main`.`Employee` WHERE `main`.`Employee`.`managerId` IN (?) LIMIT ? OFFSET ?
+ POST /api/auth/login 200 in 12ms (compile: 2ms, render: 9ms)
+prisma:error 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["db"].approvalSetting.findMany()` invocation in
+/home/z/my-project/.next/dev/server/chunks/[root-of-the-server]__85b29b23._.js:87:169
+
+  84 }, {
+  85     status: 400
+  86 });
+→ 87 const settings = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["db"].approvalSetting.findMany({
+       where: {
+         companyId: "cmpskwd1j0000nlerppec11if"
+       },
+       include: {
+         approver: {
+           select: {
+             id: true,
+             name: true,
+             position: true,
+             department: true
+           }
+         }
+       },
+       orderBy: [
+         {
+           category: "asc"
+         },
+         {
+           requestType: "asc"
+         },
+         {
+           level: "asc"
+         }
+       ]
+     })
+
+Unknown argument `level`. Available options are marked with ?.
+Error [PrismaClientValidationError]: 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["db"].approvalSetting.findMany()` invocation in
+/home/z/my-project/.next/dev/server/chunks/[root-of-the-server]__85b29b23._.js:87:169
+
+  84 }, {
+  85     status: 400
+  86 });
+→ 87 const settings = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["db"].approvalSetting.findMany({
+       where: {
+         companyId: "cmpskwd1j0000nlerppec11if"
+       },
+       include: {
+         approver: {
+           select: {
+             id: true,
+             name: true,
+             position: true,
+             department: true
+           }
+         }
+       },
+       orderBy: [
+         {
+           category: "asc"
+         },
+         {
+           requestType: "asc"
+         },
+         {
+           level: "asc"
+         }
+       ]
+     })
+
+Unknown argument `level`. Available options are marked with ?.
+    at <unknown> (src/app/api/admin/approval-settings/route.ts:10:47)
+    at async GET (src/app/api/admin/approval-settings/route.ts:10:22)
+   8 |     if (!companyId) return NextResponse.json({ error: 'معرف الشركة مطلوب' }, { status: 400 });
+   9 |
+> 10 |     const settings = await db.approvalSetting.findMany({
+     |                                               ^
+  11 |       where: { companyId },
+  12 |       include: { approver: { select: { id: true, name: true, position: true, department: true } } },
+  13 |       orderBy: [{ category: 'asc' }, { requestType: 'asc' }, { level: 'asc' }], {
+  clientVersion: '6.19.2'
+}
+ GET /api/admin/approval-settings?companyId=cmpskwd1j0000nlerppec11if 500 in 225ms (compile: 30ms, render: 194ms)
+prisma:query SELECT 1
+prisma:query SELECT 1
+prisma:query SELECT `main`.`Company`.`id`, `main`.`Company`.`name`, `main`.`Company`.`logo`, `main`.`Company`.`workStart`, `main`.`Company`.`workEnd`, `main`.`Company`.`isSetup`, `main`.`Company`.`createdAt`, `main`.`Company`.`updatedAt` FROM `main`.`Company` WHERE 1=1 LIMIT ? OFFSET ?
+ GET /api/seed 200 in 9ms (compile: 3ms, render: 6ms)
+prisma:query SELECT `main`.`Company`.`id`, `main`.`Company`.`name`, `main`.`Company`.`logo`, `main`.`Company`.`workStart`, `main`.`Company`.`workEnd`, `main`.`Company`.`isSetup`, `main`.`Company`.`createdAt`, `main`.`Company`.`updatedAt` FROM `main`.`Company` WHERE 1=1 LIMIT ? OFFSET ?
+ GET /api/seed 200 in 8ms (compile: 3ms, render: 5ms)
+prisma:query SELECT 1
+prisma:query SELECT `main`.`Company`.`id`, `main`.`Company`.`name`, `main`.`Company`.`logo`, `main`.`Company`.`workStart`, `main`.`Company`.`workEnd`, `main`.`Company`.`isSetup`, `main`.`Company`.`createdAt`, `main`.`Company`.`updatedAt` FROM `main`.`Company` WHERE 1=1 LIMIT ? OFFSET ?
+ GET /api/seed 200 in 9ms (compile: 4ms, render: 5ms)
+prisma:query SELECT `main`.`Company`.`id`, `main`.`Company`.`name`, `main`.`Company`.`logo`, `main`.`Company`.`workStart`, `main`.`Company`.`workEnd`, `main`.`Company`.`isSetup`, `main`.`Company`.`createdAt`, `main`.`Company`.`updatedAt` FROM `main`.`Company` WHERE 1=1 LIMIT ? OFFSET ?
+prisma:query SELECT `main`.`Branch`.`id`, `main`.`Branch`.`name`, `main`.`Branch`.`address`, `main`.`Branch`.`latitude`, `main`.`Branch`.`longitude`, `main`.`Branch`.`radius`, `main`.`Branch`.`companyId`, `main`.`Branch`.`createdAt`, `main`.`Branch`.`updatedAt` FROM `main`.`Branch` WHERE `main`.`Branch`.`companyId` IN (?) LIMIT ? OFFSET ?
+ GET /api/company 200 in 9ms (compile: 2ms, render: 7ms)
+ GET /api/seed 200 in 8ms (compile: 2ms, render: 5ms)
+prisma:query SELECT 1
+prisma:query SELECT `main`.`Company`.`id`, `main`.`Company`.`name`, `main`.`Company`.`logo`, `main`.`Company`.`workStart`, `main`.`Company`.`workEnd`, `main`.`Company`.`isSetup`, `main`.`Company`.`createdAt`, `main`.`Company`.`updatedAt` FROM `main`.`Company` WHERE 1=1 LIMIT ? OFFSET ?
+prisma:query SELECT `main`.`Company`.`id`, `main`.`Company`.`name`, `main`.`Company`.`logo`, `main`.`Company`.`workStart`, `main`.`Company`.`workEnd`, `main`.`Company`.`isSetup`, `main`.`Company`.`createdAt`, `main`.`Company`.`updatedAt` FROM `main`.`Company` WHERE 1=1 LIMIT ? OFFSET ?
+prisma:query SELECT `main`.`Branch`.`id`, `main`.`Branch`.`name`, `main`.`Branch`.`address`, `main`.`Branch`.`latitude`, `main`.`Branch`.`longitude`, `main`.`Branch`.`radius`, `main`.`Branch`.`companyId`, `main`.`Branch`.`createdAt`, `main`.`Branch`.`updatedAt` FROM `main`.`Branch` WHERE `main`.`Branch`.`companyId` IN (?) LIMIT ? OFFSET ?
+ GET /api/company 200 in 7ms (compile: 2ms, render: 5ms)
+prisma:query SELECT `main`.`Company`.`id`, `main`.`Company`.`name`, `main`.`Company`.`logo`, `main`.`Company`.`workStart`, `main`.`Company`.`workEnd`, `main`.`Company`.`isSetup`, `main`.`Company`.`createdAt`, `main`.`Company`.`updatedAt` FROM `main`.`Company` WHERE 1=1 LIMIT ? OFFSET ?
+prisma:query SELECT `main`.`Branch`.`id`, `main`.`Branch`.`name`, `main`.`Branch`.`address`, `main`.`Branch`.`latitude`, `main`.`Branch`.`longitude`, `main`.`Branch`.`radius`, `main`.`Branch`.`companyId`, `main`.`Branch`.`createdAt`, `main`.`Branch`.`updatedAt` FROM `main`.`Branch` WHERE `main`.`Branch`.`companyId` IN (?) LIMIT ? OFFSET ?
+ GET /api/company 200 in 10ms (compile: 3ms, render: 7ms)
+prisma:error 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["db"].approvalSetting.findMany()` invocation in
+/home/z/my-project/.next/dev/server/chunks/[root-of-the-server]__85b29b23._.js:87:169
+
+  84 }, {
+  85     status: 400
+  86 });
+→ 87 const settings = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["db"].approvalSetting.findMany({
+       where: {
+         companyId: "cmpskwd1j0000nlerppec11if"
+       },
+       include: {
+         approver: {
+           select: {
+             id: true,
+             name: true,
+             position: true,
+             department: true
+           }
+         }
+       },
+       orderBy: [
+         {
+           category: "asc"
+         },
+         {
+           requestType: "asc"
+         },
+         {
+           level: "asc"
+         }
+       ]
+     })
+
+Unknown argument `level`. Available options are marked with ?.
+Error [PrismaClientValidationError]: 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["db"].approvalSetting.findMany()` invocation in
+/home/z/my-project/.next/dev/server/chunks/[root-of-the-server]__85b29b23._.js:87:169
+
+  84 }, {
+  85     status: 400
+  86 });
+→ 87 const settings = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["db"].approvalSetting.findMany({
+       where: {
+         companyId: "cmpskwd1j0000nlerppec11if"
+       },
+       include: {
+         approver: {
+           select: {
+             id: true,
+             name: true,
+             position: true,
+             department: true
+           }
+         }
+       },
+       orderBy: [
+         {
+           category: "asc"
+         },
+         {
+           requestType: "asc"
+         },
+         {
+           level: "asc"
+         }
+       ]
+     })
+
+Unknown argument `level`. Available options are marked with ?.
+    at <unknown> (src/app/api/admin/approval-settings/route.ts:10:47)
+    at async GET (src/app/api/admin/approval-settings/route.ts:10:22)
+   8 |     if (!companyId) return NextResponse.json({ error: 'معرف الشركة مطلوب' }, { status: 400 });
+   9 |
+> 10 |     const settings = await db.approvalSetting.findMany({
+     |                                               ^
+  11 |       where: { companyId },
+  12 |       include: { approver: { select: { id: true, name: true, position: true, department: true } } },
+  13 |       orderBy: [{ category: 'asc' }, { requestType: 'asc' }, { level: 'asc' }], {
+  clientVersion: '6.19.2'
+}
+ GET /api/admin/approval-settings?companyId=cmpskwd1j0000nlerppec11if 500 in 155ms (compile: 1969µs, render: 153ms)
+prisma:query SELECT `main`.`Company`.`id`, `main`.`Company`.`name`, `main`.`Company`.`logo`, `main`.`Company`.`workStart`, `main`.`Company`.`workEnd`, `main`.`Company`.`isSetup`, `main`.`Company`.`createdAt`, `main`.`Company`.`updatedAt` FROM `main`.`Company` WHERE 1=1 LIMIT ? OFFSET ?
+prisma:query SELECT `main`.`Branch`.`id`, `main`.`Branch`.`name`, `main`.`Branch`.`address`, `main`.`Branch`.`latitude`, `main`.`Branch`.`longitude`, `main`.`Branch`.`radius`, `main`.`Branch`.`companyId`, `main`.`Branch`.`createdAt`, `main`.`Branch`.`updatedAt` FROM `main`.`Branch` WHERE `main`.`Branch`.`companyId` IN (?) LIMIT ? OFFSET ?
+ GET /api/company 200 in 11ms (compile: 3ms, render: 8ms)
+prisma:query SELECT 1
+prisma:error 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["db"].approvalSetting.findMany()` invocation in
+/home/z/my-project/.next/dev/server/chunks/[root-of-the-server]__85b29b23._.js:87:169
+
+  84 }, {
+  85     status: 400
+  86 });
+→ 87 const settings = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["db"].approvalSetting.findMany({
+       where: {
+         companyId: "cmpskwd1j0000nlerppec11if"
+       },
+       include: {
+         approver: {
+           select: {
+             id: true,
+             name: true,
+             position: true,
+             department: true
+           }
+         }
+       },
+       orderBy: [
+         {
+           category: "asc"
+         },
+         {
+           requestType: "asc"
+         },
+         {
+           level: "asc"
+         }
+       ]
+     })
+
+Unknown argument `level`. Available options are marked with ?.
+Error [PrismaClientValidationError]: 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["db"].approvalSetting.findMany()` invocation in
+/home/z/my-project/.next/dev/server/chunks/[root-of-the-server]__85b29b23._.js:87:169
+
+  84 }, {
+  85     status: 400
+  86 });
+→ 87 const settings = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["db"].approvalSetting.findMany({
+       where: {
+         companyId: "cmpskwd1j0000nlerppec11if"
+       },
+       include: {
+         approver: {
+           select: {
+             id: true,
+             name: true,
+             position: true,
+             department: true
+           }
+         }
+       },
+       orderBy: [
+         {
+           category: "asc"
+         },
+         {
+           requestType: "asc"
+         },
+         {
+           level: "asc"
+         }
+       ]
+     })
+
+Unknown argument `level`. Available options are marked with ?.
+    at <unknown> (src/app/api/admin/approval-settings/route.ts:10:47)
+    at async GET (src/app/api/admin/approval-settings/route.ts:10:22)
+   8 |     if (!companyId) return NextResponse.json({ error: 'معرف الشركة مطلوب' }, { status: 400 });
+   9 |
+> 10 |     const settings = await db.approvalSetting.findMany({
+     |                                               ^
+  11 |       where: { companyId },
+  12 |       include: { approver: { select: { id: true, name: true, position: true, department: true } } },
+  13 |       orderBy: [{ category: 'asc' }, { requestType: 'asc' }, { level: 'asc' }], {
+  clientVersion: '6.19.2'
+}
+ GET /api/admin/approval-settings?companyId=cmpskwd1j0000nlerppec11if 500 in 132ms (compile: 3ms, render: 129ms)
+prisma:query SELECT `main`.`Company`.`id`, `main`.`Company`.`name`, `main`.`Company`.`logo`, `main`.`Company`.`workStart`, `main`.`Company`.`workEnd`, `main`.`Company`.`isSetup`, `main`.`Company`.`createdAt`, `main`.`Company`.`updatedAt` FROM `main`.`Company` WHERE 1=1 LIMIT ? OFFSET ?
+ GET /api/seed 200 in 9ms (compile: 3ms, render: 6ms)
+ GET /api/company 200 in 10ms (compile: 3ms, render: 7ms)
+prisma:query SELECT 1
+prisma:query SELECT `main`.`Company`.`id`, `main`.`Company`.`name`, `main`.`Company`.`logo`, `main`.`Company`.`workStart`, `main`.`Company`.`workEnd`, `main`.`Company`.`isSetup`, `main`.`Company`.`createdAt`, `main`.`Company`.`updatedAt` FROM `main`.`Company` WHERE 1=1 LIMIT ? OFFSET ?
+prisma:query SELECT `main`.`Branch`.`id`, `main`.`Branch`.`name`, `main`.`Branch`.`address`, `main`.`Branch`.`latitude`, `main`.`Branch`.`longitude`, `main`.`Branch`.`radius`, `main`.`Branch`.`companyId`, `main`.`Branch`.`createdAt`, `main`.`Branch`.`updatedAt` FROM `main`.`Branch` WHERE `main`.`Branch`.`companyId` IN (?) LIMIT ? OFFSET ?
+prisma:query SELECT 1
+prisma:query DELETE FROM `main`.`ApprovalSetting` WHERE 1=1
+prisma:error 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["db"].approvalSetting.deleteMany()` invocation in
+/home/z/my-project/.next/dev/server/chunks/[root-of-the-server]__fe753945._.js:80:156
+
+  77 const reset = searchParams.get('reset');
+  78 if (reset === '1') {
+  79     // Delete all data and re-seed
+→ 80     await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["db"].approvalSetting.deleteMany(
+Error occurred during query execution:
+ConnectorError(ConnectorError { user_facing_error: None, kind: QueryError(SqliteError { extended_code: 1032, message: Some("attempt to write a readonly database") }), transient: false })
+Error [PrismaClientUnknownRequestError]: 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["db"].approvalSetting.deleteMany()` invocation in
+/home/z/my-project/.next/dev/server/chunks/[root-of-the-server]__fe753945._.js:80:156
+
+  77 const reset = searchParams.get('reset');
+  78 if (reset === '1') {
+  79     // Delete all data and re-seed
+→ 80     await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["db"].approvalSetting.deleteMany(
+Error occurred during query execution:
+ConnectorError(ConnectorError { user_facing_error: None, kind: QueryError(SqliteError { extended_code: 1032, message: Some("attempt to write a readonly database") }), transient: false })
+    at <unknown> (src/app/api/seed/route.ts:11:32)
+    at async GET (src/app/api/seed/route.ts:11:7)
+   9 |     if (reset === '1') {
+  10 |       // Delete all data and re-seed
+> 11 |       await db.approvalSetting.deleteMany({});
+     |                                ^
+  12 |       await db.permissionRequest.deleteMany({});
+  13 |       await db.leaveRequest.deleteMany({});
+  14 |       await db.attendance.deleteMany({}); {
+  clientVersion: '6.19.2'
+}
+ GET /api/seed?reset=1 500 in 199ms (compile: 35ms, render: 163ms)
+prisma:query DELETE FROM `main`.`ApprovalSetting` WHERE 1=1
+prisma:error 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["db"].approvalSetting.deleteMany()` invocation in
+/home/z/my-project/.next/dev/server/chunks/[root-of-the-server]__fe753945._.js:80:156
+
+  77 const reset = searchParams.get('reset');
+  78 if (reset === '1') {
+  79     // Delete all data and re-seed
+→ 80     await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["db"].approvalSetting.deleteMany(
+Error occurred during query execution:
+ConnectorError(ConnectorError { user_facing_error: None, kind: QueryError(SqliteError { extended_code: 1032, message: Some("attempt to write a readonly database") }), transient: false })
+Error [PrismaClientUnknownRequestError]: 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["db"].approvalSetting.deleteMany()` invocation in
+/home/z/my-project/.next/dev/server/chunks/[root-of-the-server]__fe753945._.js:80:156
+
+  77 const reset = searchParams.get('reset');
+  78 if (reset === '1') {
+  79     // Delete all data and re-seed
+→ 80     await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["db"].approvalSetting.deleteMany(
+Error occurred during query execution:
+ConnectorError(ConnectorError { user_facing_error: None, kind: QueryError(SqliteError { extended_code: 1032, message: Some("attempt to write a readonly database") }), transient: false })
+    at <unknown> (src/app/api/seed/route.ts:11:32)
+    at async GET (src/app/api/seed/route.ts:11:7)
+   9 |     if (reset === '1') {
+  10 |       // Delete all data and re-seed
+> 11 |       await db.approvalSetting.deleteMany({});
+     |                                ^
+  12 |       await db.permissionRequest.deleteMany({});
+  13 |       await db.leaveRequest.deleteMany({});
+  14 |       await db.attendance.deleteMany({}); {
+  clientVersion: '6.19.2'
+}
+ GET /api/seed?reset=1 500 in 124ms (compile: 3ms, render: 122ms)
+prisma:query SELECT 1
+prisma:query DELETE FROM `main`.`ApprovalSetting` WHERE 1=1
+prisma:error 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["db"].approvalSetting.deleteMany()` invocation in
+/home/z/my-project/.next/dev/server/chunks/[root-of-the-server]__fe753945._.js:80:156
+
+  77 const reset = searchParams.get('reset');
+  78 if (reset === '1') {
+  79     // Delete all data and re-seed
+→ 80     await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["db"].approvalSetting.deleteMany(
+Error occurred during query execution:
+ConnectorError(ConnectorError { user_facing_error: None, kind: QueryError(SqliteError { extended_code: 1032, message: Some("attempt to write a readonly database") }), transient: false })
+Error [PrismaClientUnknownRequestError]: 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["db"].approvalSetting.deleteMany()` invocation in
+/home/z/my-project/.next/dev/server/chunks/[root-of-the-server]__fe753945._.js:80:156
+
+  77 const reset = searchParams.get('reset');
+  78 if (reset === '1') {
+  79     // Delete all data and re-seed
+→ 80     await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["db"].approvalSetting.deleteMany(
+Error occurred during query execution:
+ConnectorError(ConnectorError { user_facing_error: None, kind: QueryError(SqliteError { extended_code: 1032, message: Some("attempt to write a readonly database") }), transient: false })
+    at <unknown> (src/app/api/seed/route.ts:11:32)
+    at async GET (src/app/api/seed/route.ts:11:7)
+   9 |     if (reset === '1') {
+  10 |       // Delete all data and re-seed
+> 11 |       await db.approvalSetting.deleteMany({});
+     |                                ^
+  12 |       await db.permissionRequest.deleteMany({});
+  13 |       await db.leaveRequest.deleteMany({});
+  14 |       await db.attendance.deleteMany({}); {
+  clientVersion: '6.19.2'
+}
+ GET /api/seed?reset=1 500 in 222ms (compile: 4ms, render: 217ms)
+prisma:query DELETE FROM `main`.`ApprovalSetting` WHERE 1=1
+prisma:error 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["db"].approvalSetting.deleteMany()` invocation in
+/home/z/my-project/.next/dev/server/chunks/[root-of-the-server]__fe753945._.js:80:156
+
+  77 const reset = searchParams.get('reset');
+  78 if (reset === '1') {
+  79     // Delete all data and re-seed
+→ 80     await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["db"].approvalSetting.deleteMany(
+Error occurred during query execution:
+ConnectorError(ConnectorError { user_facing_error: None, kind: QueryError(SqliteError { extended_code: 1032, message: Some("attempt to write a readonly database") }), transient: false })
+Error [PrismaClientUnknownRequestError]: 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["db"].approvalSetting.deleteMany()` invocation in
+/home/z/my-project/.next/dev/server/chunks/[root-of-the-server]__fe753945._.js:80:156
+
+  77 const reset = searchParams.get('reset');
+  78 if (reset === '1') {
+  79     // Delete all data and re-seed
+→ 80     await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["db"].approvalSetting.deleteMany(
+Error occurred during query execution:
+ConnectorError(ConnectorError { user_facing_error: None, kind: QueryError(SqliteError { extended_code: 1032, message: Some("attempt to write a readonly database") }), transient: false })
+    at <unknown> (src/app/api/seed/route.ts:11:32)
+    at async GET (src/app/api/seed/route.ts:11:7)
+   9 |     if (reset === '1') {
+  10 |       // Delete all data and re-seed
+> 11 |       await db.approvalSetting.deleteMany({});
+     |                                ^
+  12 |       await db.permissionRequest.deleteMany({});
+  13 |       await db.leaveRequest.deleteMany({});
+  14 |       await db.attendance.deleteMany({}); {
+  clientVersion: '6.19.2'
+}
+ GET /api/seed?reset=1 500 in 119ms (compile: 3ms, render: 116ms)
+prisma:query SELECT 1
+prisma:query SELECT `main`.`Company`.`id`, `main`.`Company`.`name`, `main`.`Company`.`logo`, `main`.`Company`.`workStart`, `main`.`Company`.`workEnd`, `main`.`Company`.`isSetup`, `main`.`Company`.`createdAt`, `main`.`Company`.`updatedAt` FROM `main`.`Company` WHERE 1=1 LIMIT ? OFFSET ?
+prisma:query SELECT `main`.`Branch`.`id`, `main`.`Branch`.`name`, `main`.`Branch`.`address`, `main`.`Branch`.`latitude`, `main`.`Branch`.`longitude`, `main`.`Branch`.`radius`, `main`.`Branch`.`companyId`, `main`.`Branch`.`createdAt`, `main`.`Branch`.`updatedAt` FROM `main`.`Branch` WHERE `main`.`Branch`.`companyId` IN (?) LIMIT ? OFFSET ?
+ GET /api/company 200 in 9ms (compile: 3ms, render: 6ms)
+prisma:error 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["db"].approvalSetting.findMany()` invocation in
+/home/z/my-project/.next/dev/server/chunks/[root-of-the-server]__85b29b23._.js:87:169
+
+  84 }, {
+  85     status: 400
+  86 });
+→ 87 const settings = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["db"].approvalSetting.findMany({
+       where: {
+         companyId: "cmpskwd1j0000nlerppec11if"
+       },
+       include: {
+         approver: {
+           select: {
+             id: true,
+             name: true,
+             position: true,
+             department: true
+           }
+         }
+       },
+       orderBy: [
+         {
+           category: "asc"
+         },
+         {
+           requestType: "asc"
+         },
+         {
+           level: "asc"
+         }
+       ]
+     })
+
+Unknown argument `level`. Available options are marked with ?.
+Error [PrismaClientValidationError]: 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["db"].approvalSetting.findMany()` invocation in
+/home/z/my-project/.next/dev/server/chunks/[root-of-the-server]__85b29b23._.js:87:169
+
+  84 }, {
+  85     status: 400
+  86 });
+→ 87 const settings = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["db"].approvalSetting.findMany({
+       where: {
+         companyId: "cmpskwd1j0000nlerppec11if"
+       },
+       include: {
+         approver: {
+           select: {
+             id: true,
+             name: true,
+             position: true,
+             department: true
+           }
+         }
+       },
+       orderBy: [
+         {
+           category: "asc"
+         },
+         {
+           requestType: "asc"
+         },
+         {
+           level: "asc"
+         }
+       ]
+     })
+
+Unknown argument `level`. Available options are marked with ?.
+    at <unknown> (src/app/api/admin/approval-settings/route.ts:10:47)
+    at async GET (src/app/api/admin/approval-settings/route.ts:10:22)
+   8 |     if (!companyId) return NextResponse.json({ error: 'معرف الشركة مطلوب' }, { status: 400 });
+   9 |
+> 10 |     const settings = await db.approvalSetting.findMany({
+     |                                               ^
+  11 |       where: { companyId },
+  12 |       include: { approver: { select: { id: true, name: true, position: true, department: true } } },
+  13 |       orderBy: [{ category: 'asc' }, { requestType: 'asc' }, { level: 'asc' }], {
+  clientVersion: '6.19.2'
+}
+ GET /api/admin/approval-settings?companyId=cmpskwd1j0000nlerppec11if 500 in 108ms (compile: 2ms, render: 106ms)
+prisma:query SELECT 1
+prisma:query SELECT `main`.`Employee`.`id`, `main`.`Employee`.`name`, `main`.`Employee`.`email`, `main`.`Employee`.`phone`, `main`.`Employee`.`position`, `main`.`Employee`.`department`, `main`.`Employee`.`role`, `main`.`Employee`.`password`, `main`.`Employee`.`branchId`, `main`.`Employee`.`companyId`, `main`.`Employee`.`managerId`, `main`.`Employee`.`createdAt`, `main`.`Employee`.`updatedAt` FROM `main`.`Employee` WHERE (`main`.`Employee`.`email` = ? AND 1=1) LIMIT ? OFFSET ?
+prisma:query SELECT `main`.`Branch`.`id`, `main`.`Branch`.`name`, `main`.`Branch`.`address`, `main`.`Branch`.`latitude`, `main`.`Branch`.`longitude`, `main`.`Branch`.`radius`, `main`.`Branch`.`companyId`, `main`.`Branch`.`createdAt`, `main`.`Branch`.`updatedAt` FROM `main`.`Branch` WHERE `main`.`Branch`.`id` IN (?) LIMIT ? OFFSET ?
+prisma:query SELECT `main`.`Company`.`id`, `main`.`Company`.`name`, `main`.`Company`.`logo`, `main`.`Company`.`workStart`, `main`.`Company`.`workEnd`, `main`.`Company`.`isSetup`, `main`.`Company`.`createdAt`, `main`.`Company`.`updatedAt` FROM `main`.`Company` WHERE `main`.`Company`.`id` IN (?) LIMIT ? OFFSET ?
+prisma:query SELECT `main`.`Branch`.`id`, `main`.`Branch`.`name`, `main`.`Branch`.`address`, `main`.`Branch`.`latitude`, `main`.`Branch`.`longitude`, `main`.`Branch`.`radius`, `main`.`Branch`.`companyId`, `main`.`Branch`.`createdAt`, `main`.`Branch`.`updatedAt` FROM `main`.`Branch` WHERE `main`.`Branch`.`companyId` IN (?) LIMIT ? OFFSET ?
+prisma:query SELECT `main`.`Employee`.`id`, `main`.`Employee`.`name`, `main`.`Employee`.`email`, `main`.`Employee`.`position`, `main`.`Employee`.`managerId` FROM `main`.`Employee` WHERE `main`.`Employee`.`managerId` IN (?) LIMIT ? OFFSET ?
+ POST /api/auth/login 200 in 11ms (compile: 2ms, render: 9ms)
+prisma:query SELECT `main`.`Employee`.`id`, `main`.`Employee`.`name`, `main`.`Employee`.`email`, `main`.`Employee`.`phone`, `main`.`Employee`.`position`, `main`.`Employee`.`department`, `main`.`Employee`.`role`, `main`.`Employee`.`password`, `main`.`Employee`.`branchId`, `main`.`Employee`.`companyId`, `main`.`Employee`.`managerId`, `main`.`Employee`.`createdAt`, `main`.`Employee`.`updatedAt` FROM `main`.`Employee` WHERE (`main`.`Employee`.`email` = ? AND 1=1) LIMIT ? OFFSET ?
+prisma:query SELECT `main`.`Branch`.`id`, `main`.`Branch`.`name`, `main`.`Branch`.`address`, `main`.`Branch`.`latitude`, `main`.`Branch`.`longitude`, `main`.`Branch`.`radius`, `main`.`Branch`.`companyId`, `main`.`Branch`.`createdAt`, `main`.`Branch`.`updatedAt` FROM `main`.`Branch` WHERE `main`.`Branch`.`id` IN (?) LIMIT ? OFFSET ?
+prisma:query SELECT `main`.`Company`.`id`, `main`.`Company`.`name`, `main`.`Company`.`logo`, `main`.`Company`.`workStart`, `main`.`Company`.`workEnd`, `main`.`Company`.`isSetup`, `main`.`Company`.`createdAt`, `main`.`Company`.`updatedAt` FROM `main`.`Company` WHERE `main`.`Company`.`id` IN (?) LIMIT ? OFFSET ?
+prisma:query SELECT `main`.`Branch`.`id`, `main`.`Branch`.`name`, `main`.`Branch`.`address`, `main`.`Branch`.`latitude`, `main`.`Branch`.`longitude`, `main`.`Branch`.`radius`, `main`.`Branch`.`companyId`, `main`.`Branch`.`createdAt`, `main`.`Branch`.`updatedAt` FROM `main`.`Branch` WHERE `main`.`Branch`.`companyId` IN (?) LIMIT ? OFFSET ?
+prisma:query SELECT `main`.`Employee`.`id`, `main`.`Employee`.`name`, `main`.`Employee`.`email`, `main`.`Employee`.`position`, `main`.`Employee`.`managerId` FROM `main`.`Employee` WHERE `main`.`Employee`.`managerId` IN (?) LIMIT ? OFFSET ?
+ POST /api/auth/login 200 in 7ms (compile: 1999µs, render: 5ms)
+prisma:query SELECT `main`.`Employee`.`id`, `main`.`Employee`.`name`, `main`.`Employee`.`email`, `main`.`Employee`.`phone`, `main`.`Employee`.`position`, `main`.`Employee`.`department`, `main`.`Employee`.`role`, `main`.`Employee`.`password`, `main`.`Employee`.`branchId`, `main`.`Employee`.`companyId`, `main`.`Employee`.`managerId`, `main`.`Employee`.`createdAt`, `main`.`Employee`.`updatedAt` FROM `main`.`Employee` WHERE (`main`.`Employee`.`email` = ? AND 1=1) LIMIT ? OFFSET ?
+prisma:query SELECT `main`.`Branch`.`id`, `main`.`Branch`.`name`, `main`.`Branch`.`address`, `main`.`Branch`.`latitude`, `main`.`Branch`.`longitude`, `main`.`Branch`.`radius`, `main`.`Branch`.`companyId`, `main`.`Branch`.`createdAt`, `main`.`Branch`.`updatedAt` FROM `main`.`Branch` WHERE `main`.`Branch`.`id` IN (?) LIMIT ? OFFSET ?
+prisma:query SELECT `main`.`Company`.`id`, `main`.`Company`.`name`, `main`.`Company`.`logo`, `main`.`Company`.`workStart`, `main`.`Company`.`workEnd`, `main`.`Company`.`isSetup`, `main`.`Company`.`createdAt`, `main`.`Company`.`updatedAt` FROM `main`.`Company` WHERE `main`.`Company`.`id` IN (?) LIMIT ? OFFSET ?
+prisma:query SELECT `main`.`Branch`.`id`, `main`.`Branch`.`name`, `main`.`Branch`.`address`, `main`.`Branch`.`latitude`, `main`.`Branch`.`longitude`, `main`.`Branch`.`radius`, `main`.`Branch`.`companyId`, `main`.`Branch`.`createdAt`, `main`.`Branch`.`updatedAt` FROM `main`.`Branch` WHERE `main`.`Branch`.`companyId` IN (?) LIMIT ? OFFSET ?
+prisma:query SELECT `main`.`Employee`.`id`, `main`.`Employee`.`name`, `main`.`Employee`.`email`, `main`.`Employee`.`position`, `main`.`Employee`.`managerId` FROM `main`.`Employee` WHERE `main`.`Employee`.`managerId` IN (?) LIMIT ? OFFSET ?
+ POST /api/auth/login 200 in 7ms (compile: 1755µs, render: 5ms)
+prisma:error 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["db"].approvalSetting.upsert()` invocation in
+/home/z/my-project/.next/dev/server/chunks/[root-of-the-server]__85b29b23._.js:135:168
+
+  132         status: 400
+  133     });
+  134 }
+→ 135 const setting = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["db"].approvalSetting.upsert({
+        where: {
+          companyId_category_requestType_level: {
+          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            companyId: "cmpskwd1j0000nlerppec11if",
+            category: "leave",
+            requestType: "annual",
+            level: 2
+          },
+      ?   id?: String,
+      ?   companyId_category_requestType?: ApprovalSettingCompanyIdCategoryRequestTypeCompoundUniqueInput,
+      ?   AND?: ApprovalSettingWhereInput | ApprovalSettingWhereInput[],
+      ?   OR?: ApprovalSettingWhereInput[],
+      ?   NOT?: ApprovalSettingWhereInput | ApprovalSettingWhereInput[],
+      ?   companyId?: StringFilter | String,
+      ?   category?: StringFilter | String,
+      ?   requestType?: StringFilter | String,
+      ?   approverId?: StringFilter | String,
+      ?   createdAt?: DateTimeFilter | DateTime,
+      ?   updatedAt?: DateTimeFilter | DateTime,
+      ?   company?: CompanyScalarRelationFilter | CompanyWhereInput,
+      ?   approver?: EmployeeScalarRelationFilter | EmployeeWhereInput
+        },
+        create: {
+          companyId: "cmpskwd1j0000nlerppec11if",
+          category: "leave",
+          requestType: "annual",
+          level: 2,
+          approverId: "cmpskwd1q000anlerlnzibhz6"
+        },
+        update: {
+          approverId: "cmpskwd1q000anlerlnzibhz6"
+        },
+        include: {
+          approver: {
+            select: {
+              id: true,
+              name: true,
+              position: true
+            }
+          }
+        }
+      })
+
+Unknown argument `companyId_category_requestType_level`. Available options are marked with ?.
+Error [PrismaClientValidationError]: 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["db"].approvalSetting.upsert()` invocation in
+/home/z/my-project/.next/dev/server/chunks/[root-of-the-server]__85b29b23._.js:135:168
+
+  132         status: 400
+  133     });
+  134 }
+→ 135 const setting = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["db"].approvalSetting.upsert({
+        where: {
+          companyId_category_requestType_level: {
+          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            companyId: "cmpskwd1j0000nlerppec11if",
+            category: "leave",
+            requestType: "annual",
+            level: 2
+          },
+      ?   id?: String,
+      ?   companyId_category_requestType?: ApprovalSettingCompanyIdCategoryRequestTypeCompoundUniqueInput,
+      ?   AND?: ApprovalSettingWhereInput | ApprovalSettingWhereInput[],
+      ?   OR?: ApprovalSettingWhereInput[],
+      ?   NOT?: ApprovalSettingWhereInput | ApprovalSettingWhereInput[],
+      ?   companyId?: StringFilter | String,
+      ?   category?: StringFilter | String,
+      ?   requestType?: StringFilter | String,
+      ?   approverId?: StringFilter | String,
+      ?   createdAt?: DateTimeFilter | DateTime,
+      ?   updatedAt?: DateTimeFilter | DateTime,
+      ?   company?: CompanyScalarRelationFilter | CompanyWhereInput,
+      ?   approver?: EmployeeScalarRelationFilter | EmployeeWhereInput
+        },
+        create: {
+          companyId: "cmpskwd1j0000nlerppec11if",
+          category: "leave",
+          requestType: "annual",
+          level: 2,
+          approverId: "cmpskwd1q000anlerlnzibhz6"
+        },
+        update: {
+          approverId: "cmpskwd1q000anlerlnzibhz6"
+        },
+        include: {
+          approver: {
+            select: {
+              id: true,
+              name: true,
+              position: true
+            }
+          }
+        }
+      })
+
+Unknown argument `companyId_category_requestType_level`. Available options are marked with ?.
+    at <unknown> (src/app/api/admin/approval-settings/route.ts:26:46)
+    at async POST (src/app/api/admin/approval-settings/route.ts:26:21)
+  24 |     }
+  25 |
+> 26 |     const setting = await db.approvalSetting.upsert({
+     |                                              ^
+  27 |       where: { companyId_category_requestType_level: { companyId, category, requestType, level: parseInt(level) } },
+  28 |       create: { companyId, category, requestType, level: parseInt(level), approverId },
+  29 |       update: { approverId }, {
+  clientVersion: '6.19.2'
+}
+ POST /api/admin/approval-settings 500 in 114ms (compile: 1914µs, render: 112ms)
+prisma:error 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["db"].approvalSetting.upsert()` invocation in
+/home/z/my-project/.next/dev/server/chunks/[root-of-the-server]__85b29b23._.js:135:168
+
+  132         status: 400
+  133     });
+  134 }
+→ 135 const setting = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["db"].approvalSetting.upsert({
+        where: {
+          companyId_category_requestType_level: {
+          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            companyId: "cmpskwd1j0000nlerppec11if",
+            category: "leave",
+            requestType: "sick",
+            level: 2
+          },
+      ?   id?: String,
+      ?   companyId_category_requestType?: ApprovalSettingCompanyIdCategoryRequestTypeCompoundUniqueInput,
+      ?   AND?: ApprovalSettingWhereInput | ApprovalSettingWhereInput[],
+      ?   OR?: ApprovalSettingWhereInput[],
+      ?   NOT?: ApprovalSettingWhereInput | ApprovalSettingWhereInput[],
+      ?   companyId?: StringFilter | String,
+      ?   category?: StringFilter | String,
+      ?   requestType?: StringFilter | String,
+      ?   approverId?: StringFilter | String,
+      ?   createdAt?: DateTimeFilter | DateTime,
+      ?   updatedAt?: DateTimeFilter | DateTime,
+      ?   company?: CompanyScalarRelationFilter | CompanyWhereInput,
+      ?   approver?: EmployeeScalarRelationFilter | EmployeeWhereInput
+        },
+        create: {
+          companyId: "cmpskwd1j0000nlerppec11if",
+          category: "leave",
+          requestType: "sick",
+          level: 2,
+          approverId: "cmpskwd1q000anlerlnzibhz6"
+        },
+        update: {
+          approverId: "cmpskwd1q000anlerlnzibhz6"
+        },
+        include: {
+          approver: {
+            select: {
+              id: true,
+              name: true,
+              position: true
+            }
+          }
+        }
+      })
+
+Unknown argument `companyId_category_requestType_level`. Available options are marked with ?.
+Error [PrismaClientValidationError]: 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["db"].approvalSetting.upsert()` invocation in
+/home/z/my-project/.next/dev/server/chunks/[root-of-the-server]__85b29b23._.js:135:168
+
+  132         status: 400
+  133     });
+  134 }
+→ 135 const setting = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["db"].approvalSetting.upsert({
+        where: {
+          companyId_category_requestType_level: {
+          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            companyId: "cmpskwd1j0000nlerppec11if",
+            category: "leave",
+            requestType: "sick",
+            level: 2
+          },
+      ?   id?: String,
+      ?   companyId_category_requestType?: ApprovalSettingCompanyIdCategoryRequestTypeCompoundUniqueInput,
+      ?   AND?: ApprovalSettingWhereInput | ApprovalSettingWhereInput[],
+      ?   OR?: ApprovalSettingWhereInput[],
+      ?   NOT?: ApprovalSettingWhereInput | ApprovalSettingWhereInput[],
+      ?   companyId?: StringFilter | String,
+      ?   category?: StringFilter | String,
+      ?   requestType?: StringFilter | String,
+      ?   approverId?: StringFilter | String,
+      ?   createdAt?: DateTimeFilter | DateTime,
+      ?   updatedAt?: DateTimeFilter | DateTime,
+      ?   company?: CompanyScalarRelationFilter | CompanyWhereInput,
+      ?   approver?: EmployeeScalarRelationFilter | EmployeeWhereInput
+        },
+        create: {
+          companyId: "cmpskwd1j0000nlerppec11if",
+          category: "leave",
+          requestType: "sick",
+          level: 2,
+          approverId: "cmpskwd1q000anlerlnzibhz6"
+        },
+        update: {
+          approverId: "cmpskwd1q000anlerlnzibhz6"
+        },
+        include: {
+          approver: {
+            select: {
+              id: true,
+              name: true,
+              position: true
+            }
+          }
+        }
+      })
+
+Unknown argument `companyId_category_requestType_level`. Available options are marked with ?.
+    at <unknown> (src/app/api/admin/approval-settings/route.ts:26:46)
+    at async POST (src/app/api/admin/approval-settings/route.ts:26:21)
+  24 |     }
+  25 |
+> 26 |     const setting = await db.approvalSetting.upsert({
+     |                                              ^
+  27 |       where: { companyId_category_requestType_level: { companyId, category, requestType, level: parseInt(level) } },
+  28 |       create: { companyId, category, requestType, level: parseInt(level), approverId },
+  29 |       update: { approverId }, {
+  clientVersion: '6.19.2'
+}
+ POST /api/admin/approval-settings 500 in 106ms (compile: 2ms, render: 104ms)
+prisma:error 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["db"].approvalSetting.upsert()` invocation in
+/home/z/my-project/.next/dev/server/chunks/[root-of-the-server]__85b29b23._.js:135:168
+
+  132         status: 400
+  133     });
+  134 }
+→ 135 const setting = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["db"].approvalSetting.upsert({
+        where: {
+          companyId_category_requestType_level: {
+          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            companyId: "cmpskwd1j0000nlerppec11if",
+            category: "leave",
+            requestType: "personal",
+            level: 2
+          },
+      ?   id?: String,
+      ?   companyId_category_requestType?: ApprovalSettingCompanyIdCategoryRequestTypeCompoundUniqueInput,
+      ?   AND?: ApprovalSettingWhereInput | ApprovalSettingWhereInput[],
+      ?   OR?: ApprovalSettingWhereInput[],
+      ?   NOT?: ApprovalSettingWhereInput | ApprovalSettingWhereInput[],
+      ?   companyId?: StringFilter | String,
+      ?   category?: StringFilter | String,
+      ?   requestType?: StringFilter | String,
+      ?   approverId?: StringFilter | String,
+      ?   createdAt?: DateTimeFilter | DateTime,
+      ?   updatedAt?: DateTimeFilter | DateTime,
+      ?   company?: CompanyScalarRelationFilter | CompanyWhereInput,
+      ?   approver?: EmployeeScalarRelationFilter | EmployeeWhereInput
+        },
+        create: {
+          companyId: "cmpskwd1j0000nlerppec11if",
+          category: "leave",
+          requestType: "personal",
+          level: 2,
+          approverId: "cmpskwd1p0008nlerpk63zyhm"
+        },
+        update: {
+          approverId: "cmpskwd1p0008nlerpk63zyhm"
+        },
+        include: {
+          approver: {
+            select: {
+              id: true,
+              name: true,
+              position: true
+            }
+          }
+        }
+      })
+
+Unknown argument `companyId_category_requestType_level`. Available options are marked with ?.
+Error [PrismaClientValidationError]: 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["db"].approvalSetting.upsert()` invocation in
+/home/z/my-project/.next/dev/server/chunks/[root-of-the-server]__85b29b23._.js:135:168
+
+  132         status: 400
+  133     });
+  134 }
+→ 135 const setting = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["db"].approvalSetting.upsert({
+        where: {
+          companyId_category_requestType_level: {
+          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            companyId: "cmpskwd1j0000nlerppec11if",
+            category: "leave",
+            requestType: "personal",
+            level: 2
+          },
+      ?   id?: String,
+      ?   companyId_category_requestType?: ApprovalSettingCompanyIdCategoryRequestTypeCompoundUniqueInput,
+      ?   AND?: ApprovalSettingWhereInput | ApprovalSettingWhereInput[],
+      ?   OR?: ApprovalSettingWhereInput[],
+      ?   NOT?: ApprovalSettingWhereInput | ApprovalSettingWhereInput[],
+      ?   companyId?: StringFilter | String,
+      ?   category?: StringFilter | String,
+      ?   requestType?: StringFilter | String,
+      ?   approverId?: StringFilter | String,
+      ?   createdAt?: DateTimeFilter | DateTime,
+      ?   updatedAt?: DateTimeFilter | DateTime,
+      ?   company?: CompanyScalarRelationFilter | CompanyWhereInput,
+      ?   approver?: EmployeeScalarRelationFilter | EmployeeWhereInput
+        },
+        create: {
+          companyId: "cmpskwd1j0000nlerppec11if",
+          category: "leave",
+          requestType: "personal",
+          level: 2,
+          approverId: "cmpskwd1p0008nlerpk63zyhm"
+        },
+        update: {
+          approverId: "cmpskwd1p0008nlerpk63zyhm"
+        },
+        include: {
+          approver: {
+            select: {
+              id: true,
+              name: true,
+              position: true
+            }
+          }
+        }
+      })
+
+Unknown argument `companyId_category_requestType_level`. Available options are marked with ?.
+    at <unknown> (src/app/api/admin/approval-settings/route.ts:26:46)
+    at async POST (src/app/api/admin/approval-settings/route.ts:26:21)
+  24 |     }
+  25 |
+> 26 |     const setting = await db.approvalSetting.upsert({
+     |                                              ^
+  27 |       where: { companyId_category_requestType_level: { companyId, category, requestType, level: parseInt(level) } },
+  28 |       create: { companyId, category, requestType, level: parseInt(level), approverId },
+  29 |       update: { approverId }, {
+  clientVersion: '6.19.2'
+}
+ POST /api/admin/approval-settings 500 in 125ms (compile: 1989µs, render: 123ms)
+prisma:error 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["db"].approvalSetting.upsert()` invocation in
+/home/z/my-project/.next/dev/server/chunks/[root-of-the-server]__85b29b23._.js:135:168
+
+  132         status: 400
+  133     });
+  134 }
+→ 135 const setting = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["db"].approvalSetting.upsert({
+        where: {
+          companyId_category_requestType_level: {
+          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            companyId: "cmpskwd1j0000nlerppec11if",
+            category: "leave",
+            requestType: "unpaid",
+            level: 2
+          },
+      ?   id?: String,
+      ?   companyId_category_requestType?: ApprovalSettingCompanyIdCategoryRequestTypeCompoundUniqueInput,
+      ?   AND?: ApprovalSettingWhereInput | ApprovalSettingWhereInput[],
+      ?   OR?: ApprovalSettingWhereInput[],
+      ?   NOT?: ApprovalSettingWhereInput | ApprovalSettingWhereInput[],
+      ?   companyId?: StringFilter | String,
+      ?   category?: StringFilter | String,
+      ?   requestType?: StringFilter | String,
+      ?   approverId?: StringFilter | String,
+      ?   createdAt?: DateTimeFilter | DateTime,
+      ?   updatedAt?: DateTimeFilter | DateTime,
+      ?   company?: CompanyScalarRelationFilter | CompanyWhereInput,
+      ?   approver?: EmployeeScalarRelationFilter | EmployeeWhereInput
+        },
+        create: {
+          companyId: "cmpskwd1j0000nlerppec11if",
+          category: "leave",
+          requestType: "unpaid",
+          level: 2,
+          approverId: "cmpskwd1s000cnler1ulranr3"
+        },
+        update: {
+          approverId: "cmpskwd1s000cnler1ulranr3"
+        },
+        include: {
+          approver: {
+            select: {
+              id: true,
+              name: true,
+              position: true
+            }
+          }
+        }
+      })
+
+Unknown argument `companyId_category_requestType_level`. Available options are marked with ?.
+Error [PrismaClientValidationError]: 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["db"].approvalSetting.upsert()` invocation in
+/home/z/my-project/.next/dev/server/chunks/[root-of-the-server]__85b29b23._.js:135:168
+
+  132         status: 400
+  133     });
+  134 }
+→ 135 const setting = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["db"].approvalSetting.upsert({
+        where: {
+          companyId_category_requestType_level: {
+          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            companyId: "cmpskwd1j0000nlerppec11if",
+            category: "leave",
+            requestType: "unpaid",
+            level: 2
+          },
+      ?   id?: String,
+      ?   companyId_category_requestType?: ApprovalSettingCompanyIdCategoryRequestTypeCompoundUniqueInput,
+      ?   AND?: ApprovalSettingWhereInput | ApprovalSettingWhereInput[],
+      ?   OR?: ApprovalSettingWhereInput[],
+      ?   NOT?: ApprovalSettingWhereInput | ApprovalSettingWhereInput[],
+      ?   companyId?: StringFilter | String,
+      ?   category?: StringFilter | String,
+      ?   requestType?: StringFilter | String,
+      ?   approverId?: StringFilter | String,
+      ?   createdAt?: DateTimeFilter | DateTime,
+      ?   updatedAt?: DateTimeFilter | DateTime,
+      ?   company?: CompanyScalarRelationFilter | CompanyWhereInput,
+      ?   approver?: EmployeeScalarRelationFilter | EmployeeWhereInput
+        },
+        create: {
+          companyId: "cmpskwd1j0000nlerppec11if",
+          category: "leave",
+          requestType: "unpaid",
+          level: 2,
+          approverId: "cmpskwd1s000cnler1ulranr3"
+        },
+        update: {
+          approverId: "cmpskwd1s000cnler1ulranr3"
+        },
+        include: {
+          approver: {
+            select: {
+              id: true,
+              name: true,
+              position: true
+            }
+          }
+        }
+      })
+
+Unknown argument `companyId_category_requestType_level`. Available options are marked with ?.
+    at <unknown> (src/app/api/admin/approval-settings/route.ts:26:46)
+    at async POST (src/app/api/admin/approval-settings/route.ts:26:21)
+  24 |     }
+  25 |
+> 26 |     const setting = await db.approvalSetting.upsert({
+     |                                              ^
+  27 |       where: { companyId_category_requestType_level: { companyId, category, requestType, level: parseInt(level) } },
+  28 |       create: { companyId, category, requestType, level: parseInt(level), approverId },
+  29 |       update: { approverId }, {
+  clientVersion: '6.19.2'
+}
+ POST /api/admin/approval-settings 500 in 95ms (compile: 2ms, render: 93ms)
+prisma:error 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["db"].approvalSetting.upsert()` invocation in
+/home/z/my-project/.next/dev/server/chunks/[root-of-the-server]__85b29b23._.js:135:168
+
+  132         status: 400
+  133     });
+  134 }
+→ 135 const setting = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["db"].approvalSetting.upsert({
+        where: {
+          companyId_category_requestType_level: {
+          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            companyId: "cmpskwd1j0000nlerppec11if",
+            category: "leave",
+            requestType: "emergency",
+            level: 2
+          },
+      ?   id?: String,
+      ?   companyId_category_requestType?: ApprovalSettingCompanyIdCategoryRequestTypeCompoundUniqueInput,
+      ?   AND?: ApprovalSettingWhereInput | ApprovalSettingWhereInput[],
+      ?   OR?: ApprovalSettingWhereInput[],
+      ?   NOT?: ApprovalSettingWhereInput | ApprovalSettingWhereInput[],
+      ?   companyId?: StringFilter | String,
+      ?   category?: StringFilter | String,
+      ?   requestType?: StringFilter | String,
+      ?   approverId?: StringFilter | String,
+      ?   createdAt?: DateTimeFilter | DateTime,
+      ?   updatedAt?: DateTimeFilter | DateTime,
+      ?   company?: CompanyScalarRelationFilter | CompanyWhereInput,
+      ?   approver?: EmployeeScalarRelationFilter | EmployeeWhereInput
+        },
+        create: {
+          companyId: "cmpskwd1j0000nlerppec11if",
+          category: "leave",
+          requestType: "emergency",
+          level: 2,
+          approverId: "cmpskwd1p0008nlerpk63zyhm"
+        },
+        update: {
+          approverId: "cmpskwd1p0008nlerpk63zyhm"
+        },
+        include: {
+          approver: {
+            select: {
+              id: true,
+              name: true,
+              position: true
+            }
+          }
+        }
+      })
+
+Unknown argument `companyId_category_requestType_level`. Available options are marked with ?.
+Error [PrismaClientValidationError]: 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["db"].approvalSetting.upsert()` invocation in
+/home/z/my-project/.next/dev/server/chunks/[root-of-the-server]__85b29b23._.js:135:168
+
+  132         status: 400
+  133     });
+  134 }
+→ 135 const setting = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["db"].approvalSetting.upsert({
+        where: {
+          companyId_category_requestType_level: {
+          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            companyId: "cmpskwd1j0000nlerppec11if",
+            category: "leave",
+            requestType: "emergency",
+            level: 2
+          },
+      ?   id?: String,
+      ?   companyId_category_requestType?: ApprovalSettingCompanyIdCategoryRequestTypeCompoundUniqueInput,
+      ?   AND?: ApprovalSettingWhereInput | ApprovalSettingWhereInput[],
+      ?   OR?: ApprovalSettingWhereInput[],
+      ?   NOT?: ApprovalSettingWhereInput | ApprovalSettingWhereInput[],
+      ?   companyId?: StringFilter | String,
+      ?   category?: StringFilter | String,
+      ?   requestType?: StringFilter | String,
+      ?   approverId?: StringFilter | String,
+      ?   createdAt?: DateTimeFilter | DateTime,
+      ?   updatedAt?: DateTimeFilter | DateTime,
+      ?   company?: CompanyScalarRelationFilter | CompanyWhereInput,
+      ?   approver?: EmployeeScalarRelationFilter | EmployeeWhereInput
+        },
+        create: {
+          companyId: "cmpskwd1j0000nlerppec11if",
+          category: "leave",
+          requestType: "emergency",
+          level: 2,
+          approverId: "cmpskwd1p0008nlerpk63zyhm"
+        },
+        update: {
+          approverId: "cmpskwd1p0008nlerpk63zyhm"
+        },
+        include: {
+          approver: {
+            select: {
+              id: true,
+              name: true,
+              position: true
+            }
+          }
+        }
+      })
+
+Unknown argument `companyId_category_requestType_level`. Available options are marked with ?.
+    at <unknown> (src/app/api/admin/approval-settings/route.ts:26:46)
+    at async POST (src/app/api/admin/approval-settings/route.ts:26:21)
+  24 |     }
+  25 |
+> 26 |     const setting = await db.approvalSetting.upsert({
+     |                                              ^
+  27 |       where: { companyId_category_requestType_level: { companyId, category, requestType, level: parseInt(level) } },
+  28 |       create: { companyId, category, requestType, level: parseInt(level), approverId },
+  29 |       update: { approverId }, {
+  clientVersion: '6.19.2'
+}
+ POST /api/admin/approval-settings 500 in 102ms (compile: 2ms, render: 100ms)
+prisma:error 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["db"].approvalSetting.upsert()` invocation in
+/home/z/my-project/.next/dev/server/chunks/[root-of-the-server]__85b29b23._.js:135:168
+
+  132         status: 400
+  133     });
+  134 }
+→ 135 const setting = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["db"].approvalSetting.upsert({
+        where: {
+          companyId_category_requestType_level: {
+          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            companyId: "cmpskwd1j0000nlerppec11if",
+            category: "leave",
+            requestType: "maternity",
+            level: 2
+          },
+      ?   id?: String,
+      ?   companyId_category_requestType?: ApprovalSettingCompanyIdCategoryRequestTypeCompoundUniqueInput,
+      ?   AND?: ApprovalSettingWhereInput | ApprovalSettingWhereInput[],
+      ?   OR?: ApprovalSettingWhereInput[],
+      ?   NOT?: ApprovalSettingWhereInput | ApprovalSettingWhereInput[],
+      ?   companyId?: StringFilter | String,
+      ?   category?: StringFilter | String,
+      ?   requestType?: StringFilter | String,
+      ?   approverId?: StringFilter | String,
+      ?   createdAt?: DateTimeFilter | DateTime,
+      ?   updatedAt?: DateTimeFilter | DateTime,
+      ?   company?: CompanyScalarRelationFilter | CompanyWhereInput,
+      ?   approver?: EmployeeScalarRelationFilter | EmployeeWhereInput
+        },
+        create: {
+          companyId: "cmpskwd1j0000nlerppec11if",
+          category: "leave",
+          requestType: "maternity",
+          level: 2,
+          approverId: "cmpskwd1q000anlerlnzibhz6"
+        },
+        update: {
+          approverId: "cmpskwd1q000anlerlnzibhz6"
+        },
+        include: {
+          approver: {
+            select: {
+              id: true,
+              name: true,
+              position: true
+            }
+          }
+        }
+      })
+
+Unknown argument `companyId_category_requestType_level`. Available options are marked with ?.
+Error [PrismaClientValidationError]: 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["db"].approvalSetting.upsert()` invocation in
+/home/z/my-project/.next/dev/server/chunks/[root-of-the-server]__85b29b23._.js:135:168
+
+  132         status: 400
+  133     });
+  134 }
+→ 135 const setting = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["db"].approvalSetting.upsert({
+        where: {
+          companyId_category_requestType_level: {
+          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            companyId: "cmpskwd1j0000nlerppec11if",
+            category: "leave",
+            requestType: "maternity",
+            level: 2
+          },
+      ?   id?: String,
+      ?   companyId_category_requestType?: ApprovalSettingCompanyIdCategoryRequestTypeCompoundUniqueInput,
+      ?   AND?: ApprovalSettingWhereInput | ApprovalSettingWhereInput[],
+      ?   OR?: ApprovalSettingWhereInput[],
+      ?   NOT?: ApprovalSettingWhereInput | ApprovalSettingWhereInput[],
+      ?   companyId?: StringFilter | String,
+      ?   category?: StringFilter | String,
+      ?   requestType?: StringFilter | String,
+      ?   approverId?: StringFilter | String,
+      ?   createdAt?: DateTimeFilter | DateTime,
+      ?   updatedAt?: DateTimeFilter | DateTime,
+      ?   company?: CompanyScalarRelationFilter | CompanyWhereInput,
+      ?   approver?: EmployeeScalarRelationFilter | EmployeeWhereInput
+        },
+        create: {
+          companyId: "cmpskwd1j0000nlerppec11if",
+          category: "leave",
+          requestType: "maternity",
+          level: 2,
+          approverId: "cmpskwd1q000anlerlnzibhz6"
+        },
+        update: {
+          approverId: "cmpskwd1q000anlerlnzibhz6"
+        },
+        include: {
+          approver: {
+            select: {
+              id: true,
+              name: true,
+              position: true
+            }
+          }
+        }
+      })
+
+Unknown argument `companyId_category_requestType_level`. Available options are marked with ?.
+    at <unknown> (src/app/api/admin/approval-settings/route.ts:26:46)
+    at async POST (src/app/api/admin/approval-settings/route.ts:26:21)
+  24 |     }
+  25 |
+> 26 |     const setting = await db.approvalSetting.upsert({
+     |                                              ^
+  27 |       where: { companyId_category_requestType_level: { companyId, category, requestType, level: parseInt(level) } },
+  28 |       create: { companyId, category, requestType, level: parseInt(level), approverId },
+  29 |       update: { approverId }, {
+  clientVersion: '6.19.2'
+}
+ POST /api/admin/approval-settings 500 in 100ms (compile: 2ms, render: 98ms)
+prisma:error 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["db"].approvalSetting.upsert()` invocation in
+/home/z/my-project/.next/dev/server/chunks/[root-of-the-server]__85b29b23._.js:135:168
+
+  132         status: 400
+  133     });
+  134 }
+→ 135 const setting = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["db"].approvalSetting.upsert({
+        where: {
+          companyId_category_requestType_level: {
+          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            companyId: "cmpskwd1j0000nlerppec11if",
+            category: "permission",
+            requestType: "personal",
+            level: 2
+          },
+      ?   id?: String,
+      ?   companyId_category_requestType?: ApprovalSettingCompanyIdCategoryRequestTypeCompoundUniqueInput,
+      ?   AND?: ApprovalSettingWhereInput | ApprovalSettingWhereInput[],
+      ?   OR?: ApprovalSettingWhereInput[],
+      ?   NOT?: ApprovalSettingWhereInput | ApprovalSettingWhereInput[],
+      ?   companyId?: StringFilter | String,
+      ?   category?: StringFilter | String,
+      ?   requestType?: StringFilter | String,
+      ?   approverId?: StringFilter | String,
+      ?   createdAt?: DateTimeFilter | DateTime,
+      ?   updatedAt?: DateTimeFilter | DateTime,
+      ?   company?: CompanyScalarRelationFilter | CompanyWhereInput,
+      ?   approver?: EmployeeScalarRelationFilter | EmployeeWhereInput
+        },
+        create: {
+          companyId: "cmpskwd1j0000nlerppec11if",
+          category: "permission",
+          requestType: "personal",
+          level: 2,
+          approverId: "cmpskwd1q000anlerlnzibhz6"
+        },
+        update: {
+          approverId: "cmpskwd1q000anlerlnzibhz6"
+        },
+        include: {
+          approver: {
+            select: {
+              id: true,
+              name: true,
+              position: true
+            }
+          }
+        }
+      })
+
+Unknown argument `companyId_category_requestType_level`. Available options are marked with ?.
+Error [PrismaClientValidationError]: 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["db"].approvalSetting.upsert()` invocation in
+/home/z/my-project/.next/dev/server/chunks/[root-of-the-server]__85b29b23._.js:135:168
+
+  132         status: 400
+  133     });
+  134 }
+→ 135 const setting = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["db"].approvalSetting.upsert({
+        where: {
+          companyId_category_requestType_level: {
+          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            companyId: "cmpskwd1j0000nlerppec11if",
+            category: "permission",
+            requestType: "personal",
+            level: 2
+          },
+      ?   id?: String,
+      ?   companyId_category_requestType?: ApprovalSettingCompanyIdCategoryRequestTypeCompoundUniqueInput,
+      ?   AND?: ApprovalSettingWhereInput | ApprovalSettingWhereInput[],
+      ?   OR?: ApprovalSettingWhereInput[],
+      ?   NOT?: ApprovalSettingWhereInput | ApprovalSettingWhereInput[],
+      ?   companyId?: StringFilter | String,
+      ?   category?: StringFilter | String,
+      ?   requestType?: StringFilter | String,
+      ?   approverId?: StringFilter | String,
+      ?   createdAt?: DateTimeFilter | DateTime,
+      ?   updatedAt?: DateTimeFilter | DateTime,
+      ?   company?: CompanyScalarRelationFilter | CompanyWhereInput,
+      ?   approver?: EmployeeScalarRelationFilter | EmployeeWhereInput
+        },
+        create: {
+          companyId: "cmpskwd1j0000nlerppec11if",
+          category: "permission",
+          requestType: "personal",
+          level: 2,
+          approverId: "cmpskwd1q000anlerlnzibhz6"
+        },
+        update: {
+          approverId: "cmpskwd1q000anlerlnzibhz6"
+        },
+        include: {
+          approver: {
+            select: {
+              id: true,
+              name: true,
+              position: true
+            }
+          }
+        }
+      })
+
+Unknown argument `companyId_category_requestType_level`. Available options are marked with ?.
+    at <unknown> (src/app/api/admin/approval-settings/route.ts:26:46)
+    at async POST (src/app/api/admin/approval-settings/route.ts:26:21)
+  24 |     }
+  25 |
+> 26 |     const setting = await db.approvalSetting.upsert({
+     |                                              ^
+  27 |       where: { companyId_category_requestType_level: { companyId, category, requestType, level: parseInt(level) } },
+  28 |       create: { companyId, category, requestType, level: parseInt(level), approverId },
+  29 |       update: { approverId }, {
+  clientVersion: '6.19.2'
+}
+ POST /api/admin/approval-settings 500 in 115ms (compile: 2ms, render: 113ms)
+prisma:error 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["db"].approvalSetting.upsert()` invocation in
+/home/z/my-project/.next/dev/server/chunks/[root-of-the-server]__85b29b23._.js:135:168
+
+  132         status: 400
+  133     });
+  134 }
+→ 135 const setting = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["db"].approvalSetting.upsert({
+        where: {
+          companyId_category_requestType_level: {
+          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            companyId: "cmpskwd1j0000nlerppec11if",
+            category: "permission",
+            requestType: "late",
+            level: 2
+          },
+      ?   id?: String,
+      ?   companyId_category_requestType?: ApprovalSettingCompanyIdCategoryRequestTypeCompoundUniqueInput,
+      ?   AND?: ApprovalSettingWhereInput | ApprovalSettingWhereInput[],
+      ?   OR?: ApprovalSettingWhereInput[],
+      ?   NOT?: ApprovalSettingWhereInput | ApprovalSettingWhereInput[],
+      ?   companyId?: StringFilter | String,
+      ?   category?: StringFilter | String,
+      ?   requestType?: StringFilter | String,
+      ?   approverId?: StringFilter | String,
+      ?   createdAt?: DateTimeFilter | DateTime,
+      ?   updatedAt?: DateTimeFilter | DateTime,
+      ?   company?: CompanyScalarRelationFilter | CompanyWhereInput,
+      ?   approver?: EmployeeScalarRelationFilter | EmployeeWhereInput
+        },
+        create: {
+          companyId: "cmpskwd1j0000nlerppec11if",
+          category: "permission",
+          requestType: "late",
+          level: 2,
+          approverId: "cmpskwd1q000anlerlnzibhz6"
+        },
+        update: {
+          approverId: "cmpskwd1q000anlerlnzibhz6"
+        },
+        include: {
+          approver: {
+            select: {
+              id: true,
+              name: true,
+              position: true
+            }
+          }
+        }
+      })
+
+Unknown argument `companyId_category_requestType_level`. Available options are marked with ?.
+Error [PrismaClientValidationError]: 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["db"].approvalSetting.upsert()` invocation in
+/home/z/my-project/.next/dev/server/chunks/[root-of-the-server]__85b29b23._.js:135:168
+
+  132         status: 400
+  133     });
+  134 }
+→ 135 const setting = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["db"].approvalSetting.upsert({
+        where: {
+          companyId_category_requestType_level: {
+          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            companyId: "cmpskwd1j0000nlerppec11if",
+            category: "permission",
+            requestType: "late",
+            level: 2
+          },
+      ?   id?: String,
+      ?   companyId_category_requestType?: ApprovalSettingCompanyIdCategoryRequestTypeCompoundUniqueInput,
+      ?   AND?: ApprovalSettingWhereInput | ApprovalSettingWhereInput[],
+      ?   OR?: ApprovalSettingWhereInput[],
+      ?   NOT?: ApprovalSettingWhereInput | ApprovalSettingWhereInput[],
+      ?   companyId?: StringFilter | String,
+      ?   category?: StringFilter | String,
+      ?   requestType?: StringFilter | String,
+      ?   approverId?: StringFilter | String,
+      ?   createdAt?: DateTimeFilter | DateTime,
+      ?   updatedAt?: DateTimeFilter | DateTime,
+      ?   company?: CompanyScalarRelationFilter | CompanyWhereInput,
+      ?   approver?: EmployeeScalarRelationFilter | EmployeeWhereInput
+        },
+        create: {
+          companyId: "cmpskwd1j0000nlerppec11if",
+          category: "permission",
+          requestType: "late",
+          level: 2,
+          approverId: "cmpskwd1q000anlerlnzibhz6"
+        },
+        update: {
+          approverId: "cmpskwd1q000anlerlnzibhz6"
+        },
+        include: {
+          approver: {
+            select: {
+              id: true,
+              name: true,
+              position: true
+            }
+          }
+        }
+      })
+
+Unknown argument `companyId_category_requestType_level`. Available options are marked with ?.
+    at <unknown> (src/app/api/admin/approval-settings/route.ts:26:46)
+    at async POST (src/app/api/admin/approval-settings/route.ts:26:21)
+  24 |     }
+  25 |
+> 26 |     const setting = await db.approvalSetting.upsert({
+     |                                              ^
+  27 |       where: { companyId_category_requestType_level: { companyId, category, requestType, level: parseInt(level) } },
+  28 |       create: { companyId, category, requestType, level: parseInt(level), approverId },
+  29 |       update: { approverId }, {
+  clientVersion: '6.19.2'
+}
+ POST /api/admin/approval-settings 500 in 145ms (compile: 2ms, render: 143ms)
+prisma:error 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["db"].approvalSetting.upsert()` invocation in
+/home/z/my-project/.next/dev/server/chunks/[root-of-the-server]__85b29b23._.js:135:168
+
+  132         status: 400
+  133     });
+  134 }
+→ 135 const setting = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["db"].approvalSetting.upsert({
+        where: {
+          companyId_category_requestType_level: {
+          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            companyId: "cmpskwd1j0000nlerppec11if",
+            category: "permission",
+            requestType: "early",
+            level: 2
+          },
+      ?   id?: String,
+      ?   companyId_category_requestType?: ApprovalSettingCompanyIdCategoryRequestTypeCompoundUniqueInput,
+      ?   AND?: ApprovalSettingWhereInput | ApprovalSettingWhereInput[],
+      ?   OR?: ApprovalSettingWhereInput[],
+      ?   NOT?: ApprovalSettingWhereInput | ApprovalSettingWhereInput[],
+      ?   companyId?: StringFilter | String,
+      ?   category?: StringFilter | String,
+      ?   requestType?: StringFilter | String,
+      ?   approverId?: StringFilter | String,
+      ?   createdAt?: DateTimeFilter | DateTime,
+      ?   updatedAt?: DateTimeFilter | DateTime,
+      ?   company?: CompanyScalarRelationFilter | CompanyWhereInput,
+      ?   approver?: EmployeeScalarRelationFilter | EmployeeWhereInput
+        },
+        create: {
+          companyId: "cmpskwd1j0000nlerppec11if",
+          category: "permission",
+          requestType: "early",
+          level: 2,
+          approverId: "cmpskwd1q000anlerlnzibhz6"
+        },
+        update: {
+          approverId: "cmpskwd1q000anlerlnzibhz6"
+        },
+        include: {
+          approver: {
+            select: {
+              id: true,
+              name: true,
+              position: true
+            }
+          }
+        }
+      })
+
+Unknown argument `companyId_category_requestType_level`. Available options are marked with ?.
+Error [PrismaClientValidationError]: 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["db"].approvalSetting.upsert()` invocation in
+/home/z/my-project/.next/dev/server/chunks/[root-of-the-server]__85b29b23._.js:135:168
+
+  132         status: 400
+  133     });
+  134 }
+→ 135 const setting = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["db"].approvalSetting.upsert({
+        where: {
+          companyId_category_requestType_level: {
+          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            companyId: "cmpskwd1j0000nlerppec11if",
+            category: "permission",
+            requestType: "early",
+            level: 2
+          },
+      ?   id?: String,
+      ?   companyId_category_requestType?: ApprovalSettingCompanyIdCategoryRequestTypeCompoundUniqueInput,
+      ?   AND?: ApprovalSettingWhereInput | ApprovalSettingWhereInput[],
+      ?   OR?: ApprovalSettingWhereInput[],
+      ?   NOT?: ApprovalSettingWhereInput | ApprovalSettingWhereInput[],
+      ?   companyId?: StringFilter | String,
+      ?   category?: StringFilter | String,
+      ?   requestType?: StringFilter | String,
+      ?   approverId?: StringFilter | String,
+      ?   createdAt?: DateTimeFilter | DateTime,
+      ?   updatedAt?: DateTimeFilter | DateTime,
+      ?   company?: CompanyScalarRelationFilter | CompanyWhereInput,
+      ?   approver?: EmployeeScalarRelationFilter | EmployeeWhereInput
+        },
+        create: {
+          companyId: "cmpskwd1j0000nlerppec11if",
+          category: "permission",
+          requestType: "early",
+          level: 2,
+          approverId: "cmpskwd1q000anlerlnzibhz6"
+        },
+        update: {
+          approverId: "cmpskwd1q000anlerlnzibhz6"
+        },
+        include: {
+          approver: {
+            select: {
+              id: true,
+              name: true,
+              position: true
+            }
+          }
+        }
+      })
+
+Unknown argument `companyId_category_requestType_level`. Available options are marked with ?.
+    at <unknown> (src/app/api/admin/approval-settings/route.ts:26:46)
+    at async POST (src/app/api/admin/approval-settings/route.ts:26:21)
+  24 |     }
+  25 |
+> 26 |     const setting = await db.approvalSetting.upsert({
+     |                                              ^
+  27 |       where: { companyId_category_requestType_level: { companyId, category, requestType, level: parseInt(level) } },
+  28 |       create: { companyId, category, requestType, level: parseInt(level), approverId },
+  29 |       update: { approverId }, {
+  clientVersion: '6.19.2'
+}
+ POST /api/admin/approval-settings 500 in 138ms (compile: 3ms, render: 135ms)
+prisma:error 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["db"].approvalSetting.upsert()` invocation in
+/home/z/my-project/.next/dev/server/chunks/[root-of-the-server]__85b29b23._.js:135:168
+
+  132         status: 400
+  133     });
+  134 }
+→ 135 const setting = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["db"].approvalSetting.upsert({
+        where: {
+          companyId_category_requestType_level: {
+          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            companyId: "cmpskwd1j0000nlerppec11if",
+            category: "permission",
+            requestType: "errand",
+            level: 2
+          },
+      ?   id?: String,
+      ?   companyId_category_requestType?: ApprovalSettingCompanyIdCategoryRequestTypeCompoundUniqueInput,
+      ?   AND?: ApprovalSettingWhereInput | ApprovalSettingWhereInput[],
+      ?   OR?: ApprovalSettingWhereInput[],
+      ?   NOT?: ApprovalSettingWhereInput | ApprovalSettingWhereInput[],
+      ?   companyId?: StringFilter | String,
+      ?   category?: StringFilter | String,
+      ?   requestType?: StringFilter | String,
+      ?   approverId?: StringFilter | String,
+      ?   createdAt?: DateTimeFilter | DateTime,
+      ?   updatedAt?: DateTimeFilter | DateTime,
+      ?   company?: CompanyScalarRelationFilter | CompanyWhereInput,
+      ?   approver?: EmployeeScalarRelationFilter | EmployeeWhereInput
+        },
+        create: {
+          companyId: "cmpskwd1j0000nlerppec11if",
+          category: "permission",
+          requestType: "errand",
+          level: 2,
+          approverId: "cmpskwd1p0008nlerpk63zyhm"
+        },
+        update: {
+          approverId: "cmpskwd1p0008nlerpk63zyhm"
+        },
+        include: {
+          approver: {
+            select: {
+              id: true,
+              name: true,
+              position: true
+            }
+          }
+        }
+      })
+
+Unknown argument `companyId_category_requestType_level`. Available options are marked with ?.
+Error [PrismaClientValidationError]: 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["db"].approvalSetting.upsert()` invocation in
+/home/z/my-project/.next/dev/server/chunks/[root-of-the-server]__85b29b23._.js:135:168
+
+  132         status: 400
+  133     });
+  134 }
+→ 135 const setting = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["db"].approvalSetting.upsert({
+        where: {
+          companyId_category_requestType_level: {
+          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            companyId: "cmpskwd1j0000nlerppec11if",
+            category: "permission",
+            requestType: "errand",
+            level: 2
+          },
+      ?   id?: String,
+      ?   companyId_category_requestType?: ApprovalSettingCompanyIdCategoryRequestTypeCompoundUniqueInput,
+      ?   AND?: ApprovalSettingWhereInput | ApprovalSettingWhereInput[],
+      ?   OR?: ApprovalSettingWhereInput[],
+      ?   NOT?: ApprovalSettingWhereInput | ApprovalSettingWhereInput[],
+      ?   companyId?: StringFilter | String,
+      ?   category?: StringFilter | String,
+      ?   requestType?: StringFilter | String,
+      ?   approverId?: StringFilter | String,
+      ?   createdAt?: DateTimeFilter | DateTime,
+      ?   updatedAt?: DateTimeFilter | DateTime,
+      ?   company?: CompanyScalarRelationFilter | CompanyWhereInput,
+      ?   approver?: EmployeeScalarRelationFilter | EmployeeWhereInput
+        },
+        create: {
+          companyId: "cmpskwd1j0000nlerppec11if",
+          category: "permission",
+          requestType: "errand",
+          level: 2,
+          approverId: "cmpskwd1p0008nlerpk63zyhm"
+        },
+        update: {
+          approverId: "cmpskwd1p0008nlerpk63zyhm"
+        },
+        include: {
+          approver: {
+            select: {
+              id: true,
+              name: true,
+              position: true
+            }
+          }
+        }
+      })
+
+Unknown argument `companyId_category_requestType_level`. Available options are marked with ?.
+    at <unknown> (src/app/api/admin/approval-settings/route.ts:26:46)
+    at async POST (src/app/api/admin/approval-settings/route.ts:26:21)
+  24 |     }
+  25 |
+> 26 |     const setting = await db.approvalSetting.upsert({
+     |                                              ^
+  27 |       where: { companyId_category_requestType_level: { companyId, category, requestType, level: parseInt(level) } },
+  28 |       create: { companyId, category, requestType, level: parseInt(level), approverId },
+  29 |       update: { approverId }, {
+  clientVersion: '6.19.2'
+}
+ POST /api/admin/approval-settings 500 in 91ms (compile: 2ms, render: 89ms)
+prisma:error 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["db"].approvalSetting.upsert()` invocation in
+/home/z/my-project/.next/dev/server/chunks/[root-of-the-server]__85b29b23._.js:135:168
+
+  132         status: 400
+  133     });
+  134 }
+→ 135 const setting = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["db"].approvalSetting.upsert({
+        where: {
+          companyId_category_requestType_level: {
+          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            companyId: "cmpskwd1j0000nlerppec11if",
+            category: "permission",
+            requestType: "other",
+            level: 2
+          },
+      ?   id?: String,
+      ?   companyId_category_requestType?: ApprovalSettingCompanyIdCategoryRequestTypeCompoundUniqueInput,
+      ?   AND?: ApprovalSettingWhereInput | ApprovalSettingWhereInput[],
+      ?   OR?: ApprovalSettingWhereInput[],
+      ?   NOT?: ApprovalSettingWhereInput | ApprovalSettingWhereInput[],
+      ?   companyId?: StringFilter | String,
+      ?   category?: StringFilter | String,
+      ?   requestType?: StringFilter | String,
+      ?   approverId?: StringFilter | String,
+      ?   createdAt?: DateTimeFilter | DateTime,
+      ?   updatedAt?: DateTimeFilter | DateTime,
+      ?   company?: CompanyScalarRelationFilter | CompanyWhereInput,
+      ?   approver?: EmployeeScalarRelationFilter | EmployeeWhereInput
+        },
+        create: {
+          companyId: "cmpskwd1j0000nlerppec11if",
+          category: "permission",
+          requestType: "other",
+          level: 2,
+          approverId: "cmpskwd1p0008nlerpk63zyhm"
+        },
+        update: {
+          approverId: "cmpskwd1p0008nlerpk63zyhm"
+        },
+        include: {
+          approver: {
+            select: {
+              id: true,
+              name: true,
+              position: true
+            }
+          }
+        }
+      })
+
+Unknown argument `companyId_category_requestType_level`. Available options are marked with ?.
+Error [PrismaClientValidationError]: 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["db"].approvalSetting.upsert()` invocation in
+/home/z/my-project/.next/dev/server/chunks/[root-of-the-server]__85b29b23._.js:135:168
+
+  132         status: 400
+  133     });
+  134 }
+→ 135 const setting = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["db"].approvalSetting.upsert({
+        where: {
+          companyId_category_requestType_level: {
+          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            companyId: "cmpskwd1j0000nlerppec11if",
+            category: "permission",
+            requestType: "other",
+            level: 2
+          },
+      ?   id?: String,
+      ?   companyId_category_requestType?: ApprovalSettingCompanyIdCategoryRequestTypeCompoundUniqueInput,
+      ?   AND?: ApprovalSettingWhereInput | ApprovalSettingWhereInput[],
+      ?   OR?: ApprovalSettingWhereInput[],
+      ?   NOT?: ApprovalSettingWhereInput | ApprovalSettingWhereInput[],
+      ?   companyId?: StringFilter | String,
+      ?   category?: StringFilter | String,
+      ?   requestType?: StringFilter | String,
+      ?   approverId?: StringFilter | String,
+      ?   createdAt?: DateTimeFilter | DateTime,
+      ?   updatedAt?: DateTimeFilter | DateTime,
+      ?   company?: CompanyScalarRelationFilter | CompanyWhereInput,
+      ?   approver?: EmployeeScalarRelationFilter | EmployeeWhereInput
+        },
+        create: {
+          companyId: "cmpskwd1j0000nlerppec11if",
+          category: "permission",
+          requestType: "other",
+          level: 2,
+          approverId: "cmpskwd1p0008nlerpk63zyhm"
+        },
+        update: {
+          approverId: "cmpskwd1p0008nlerpk63zyhm"
+        },
+        include: {
+          approver: {
+            select: {
+              id: true,
+              name: true,
+              position: true
+            }
+          }
+        }
+      })
+
+Unknown argument `companyId_category_requestType_level`. Available options are marked with ?.
+    at <unknown> (src/app/api/admin/approval-settings/route.ts:26:46)
+    at async POST (src/app/api/admin/approval-settings/route.ts:26:21)
+  24 |     }
+  25 |
+> 26 |     const setting = await db.approvalSetting.upsert({
+     |                                              ^
+  27 |       where: { companyId_category_requestType_level: { companyId, category, requestType, level: parseInt(level) } },
+  28 |       create: { companyId, category, requestType, level: parseInt(level), approverId },
+  29 |       update: { approverId }, {
+  clientVersion: '6.19.2'
+}
+ POST /api/admin/approval-settings 500 in 93ms (compile: 1915µs, render: 91ms)
+prisma:error 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["db"].approvalSetting.findMany()` invocation in
+/home/z/my-project/.next/dev/server/chunks/[root-of-the-server]__85b29b23._.js:87:169
+
+  84 }, {
+  85     status: 400
+  86 });
+→ 87 const settings = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["db"].approvalSetting.findMany({
+       where: {
+         companyId: "cmpskwd1j0000nlerppec11if"
+       },
+       include: {
+         approver: {
+           select: {
+             id: true,
+             name: true,
+             position: true,
+             department: true
+           }
+         }
+       },
+       orderBy: [
+         {
+           category: "asc"
+         },
+         {
+           requestType: "asc"
+         },
+         {
+           level: "asc"
+         }
+       ]
+     })
+
+Unknown argument `level`. Available options are marked with ?.
+Error [PrismaClientValidationError]: 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["db"].approvalSetting.findMany()` invocation in
+/home/z/my-project/.next/dev/server/chunks/[root-of-the-server]__85b29b23._.js:87:169
+
+  84 }, {
+  85     status: 400
+  86 });
+→ 87 const settings = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["db"].approvalSetting.findMany({
+       where: {
+         companyId: "cmpskwd1j0000nlerppec11if"
+       },
+       include: {
+         approver: {
+           select: {
+             id: true,
+             name: true,
+             position: true,
+             department: true
+           }
+         }
+       },
+       orderBy: [
+         {
+           category: "asc"
+         },
+         {
+           requestType: "asc"
+         },
+         {
+           level: "asc"
+         }
+       ]
+     })
+
+Unknown argument `level`. Available options are marked with ?.
+    at <unknown> (src/app/api/admin/approval-settings/route.ts:10:47)
+    at async GET (src/app/api/admin/approval-settings/route.ts:10:22)
+   8 |     if (!companyId) return NextResponse.json({ error: 'معرف الشركة مطلوب' }, { status: 400 });
+   9 |
+> 10 |     const settings = await db.approvalSetting.findMany({
+     |                                               ^
+  11 |       where: { companyId },
+  12 |       include: { approver: { select: { id: true, name: true, position: true, department: true } } },
+  13 |       orderBy: [{ category: 'asc' }, { requestType: 'asc' }, { level: 'asc' }], {
+  clientVersion: '6.19.2'
+}
+ GET /api/admin/approval-settings?companyId=cmpskwd1j0000nlerppec11if 500 in 92ms (compile: 2ms, render: 90ms)
+prisma:error 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["db"].approvalSetting.findMany()` invocation in
+/home/z/my-project/.next/dev/server/chunks/[root-of-the-server]__85b29b23._.js:87:169
+
+  84 }, {
+  85     status: 400
+  86 });
+→ 87 const settings = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["db"].approvalSetting.findMany({
+       where: {
+         companyId: "cmpskwd1j0000nlerppec11if"
+       },
+       include: {
+         approver: {
+           select: {
+             id: true,
+             name: true,
+             position: true,
+             department: true
+           }
+         }
+       },
+       orderBy: [
+         {
+           category: "asc"
+         },
+         {
+           requestType: "asc"
+         },
+         {
+           level: "asc"
+         }
+       ]
+     })
+
+Unknown argument `level`. Available options are marked with ?.
+Error [PrismaClientValidationError]: 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["db"].approvalSetting.findMany()` invocation in
+/home/z/my-project/.next/dev/server/chunks/[root-of-the-server]__85b29b23._.js:87:169
+
+  84 }, {
+  85     status: 400
+  86 });
+→ 87 const settings = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["db"].approvalSetting.findMany({
+       where: {
+         companyId: "cmpskwd1j0000nlerppec11if"
+       },
+       include: {
+         approver: {
+           select: {
+             id: true,
+             name: true,
+             position: true,
+             department: true
+           }
+         }
+       },
+       orderBy: [
+         {
+           category: "asc"
+         },
+         {
+           requestType: "asc"
+         },
+         {
+           level: "asc"
+         }
+       ]
+     })
+
+Unknown argument `level`. Available options are marked with ?.
+    at <unknown> (src/app/api/admin/approval-settings/route.ts:10:47)
+    at async GET (src/app/api/admin/approval-settings/route.ts:10:22)
+   8 |     if (!companyId) return NextResponse.json({ error: 'معرف الشركة مطلوب' }, { status: 400 });
+   9 |
+> 10 |     const settings = await db.approvalSetting.findMany({
+     |                                               ^
+  11 |       where: { companyId },
+  12 |       include: { approver: { select: { id: true, name: true, position: true, department: true } } },
+  13 |       orderBy: [{ category: 'asc' }, { requestType: 'asc' }, { level: 'asc' }], {
+  clientVersion: '6.19.2'
+}
+ GET /api/admin/approval-settings?companyId=cmpskwd1j0000nlerppec11if 500 in 104ms (compile: 3ms, render: 101ms)
+prisma:query SELECT 1
+prisma:query SELECT `main`.`ApprovalSetting`.`id`, `main`.`ApprovalSetting`.`companyId`, `main`.`ApprovalSetting`.`category`, `main`.`ApprovalSetting`.`requestType`, `main`.`ApprovalSetting`.`approverId`, `main`.`ApprovalSetting`.`createdAt`, `main`.`ApprovalSetting`.`updatedAt` FROM `main`.`ApprovalSetting` WHERE `main`.`ApprovalSetting`.`companyId` = ? ORDER BY `main`.`ApprovalSetting`.`category` ASC LIMIT ? OFFSET ?
+prisma:query SELECT `main`.`Employee`.`id`, `main`.`Employee`.`name`, `main`.`Employee`.`position` FROM `main`.`Employee` WHERE `main`.`Employee`.`id` IN (?,?,?) LIMIT ? OFFSET ?
+ GET /api/admin/approval-settings?companyId=cmpskwd1j0000nlerppec11if 200 in 47ms (compile: 36ms, render: 11ms)
+ GET /api/admin/approval-settings?companyId=cmpskwd1j0000nlerppec11if 200 in 9ms (compile: 3ms, render: 6ms)
+prisma:query SELECT `main`.`ApprovalSetting`.`id`, `main`.`ApprovalSetting`.`companyId`, `main`.`ApprovalSetting`.`category`, `main`.`ApprovalSetting`.`requestType`, `main`.`ApprovalSetting`.`approverId`, `main`.`ApprovalSetting`.`createdAt`, `main`.`ApprovalSetting`.`updatedAt` FROM `main`.`ApprovalSetting` WHERE `main`.`ApprovalSetting`.`companyId` = ? ORDER BY `main`.`ApprovalSetting`.`category` ASC LIMIT ? OFFSET ?
+prisma:query SELECT `main`.`Employee`.`id`, `main`.`Employee`.`name`, `main`.`Employee`.`position` FROM `main`.`Employee` WHERE `main`.`Employee`.`id` IN (?,?,?) LIMIT ? OFFSET ?
+prisma:query SELECT 1
+prisma:query SELECT `main`.`ApprovalSetting`.`id`, `main`.`ApprovalSetting`.`companyId`, `main`.`ApprovalSetting`.`category`, `main`.`ApprovalSetting`.`requestType`, `main`.`ApprovalSetting`.`approverId`, `main`.`ApprovalSetting`.`createdAt`, `main`.`ApprovalSetting`.`updatedAt` FROM `main`.`ApprovalSetting` WHERE `main`.`ApprovalSetting`.`companyId` = ? ORDER BY `main`.`ApprovalSetting`.`category` ASC LIMIT ? OFFSET ?
+prisma:query SELECT `main`.`Employee`.`id`, `main`.`Employee`.`name`, `main`.`Employee`.`position` FROM `main`.`Employee` WHERE `main`.`Employee`.`id` IN (?,?,?) LIMIT ? OFFSET ?
+ GET /api/admin/approval-settings?companyId=cmpskwd1j0000nlerppec11if 200 in 8ms (compile: 2ms, render: 6ms)
+ GET / 200 in 56ms (compile: 3ms, render: 54ms)
+prisma:query SELECT 1
+prisma:query SELECT `main`.`ApprovalSetting`.`id`, `main`.`ApprovalSetting`.`companyId`, `main`.`ApprovalSetting`.`category`, `main`.`ApprovalSetting`.`requestType`, `main`.`ApprovalSetting`.`approverId`, `main`.`ApprovalSetting`.`createdAt`, `main`.`ApprovalSetting`.`updatedAt` FROM `main`.`ApprovalSetting` WHERE `main`.`ApprovalSetting`.`companyId` = ? ORDER BY `main`.`ApprovalSetting`.`category` ASC LIMIT ? OFFSET ?
+prisma:query SELECT `main`.`Employee`.`id`, `main`.`Employee`.`name`, `main`.`Employee`.`position` FROM `main`.`Employee` WHERE `main`.`Employee`.`id` IN (?,?,?) LIMIT ? OFFSET ?
+ GET /api/admin/approval-settings?companyId=cmpskwd1j0000nlerppec11if 200 in 7ms (compile: 2ms, render: 5ms)
+prisma:query SELECT 1
+prisma:query SELECT `main`.`ApprovalSetting`.`id`, `main`.`ApprovalSetting`.`companyId`, `main`.`ApprovalSetting`.`category`, `main`.`ApprovalSetting`.`requestType`, `main`.`ApprovalSetting`.`approverId`, `main`.`ApprovalSetting`.`createdAt`, `main`.`ApprovalSetting`.`updatedAt` FROM `main`.`ApprovalSetting` WHERE `main`.`ApprovalSetting`.`companyId` = ? ORDER BY `main`.`ApprovalSetting`.`category` ASC LIMIT ? OFFSET ?
+prisma:query SELECT `main`.`Employee`.`id`, `main`.`Employee`.`name`, `main`.`Employee`.`position` FROM `main`.`Employee` WHERE `main`.`Employee`.`id` IN (?,?,?) LIMIT ? OFFSET ?
+ GET /api/admin/approval-settings?companyId=cmpskwd1j0000nlerppec11if 200 in 8ms (compile: 2ms, render: 6ms)
+ GET / 200 in 32ms (compile: 3ms, render: 29ms)
+ GET / 200 in 32ms (compile: 3ms, render: 30ms)

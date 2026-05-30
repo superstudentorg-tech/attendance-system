@@ -47,6 +47,13 @@ interface AttendanceData {
 
 interface LeaveData {
   id: string; type: string; startDate: string; endDate: string; reason: string; status: string
+  currentLevel: number
+  level1AssignedTo?: { id: string; name: string; position?: string } | null
+  level1ApprovedBy?: string | null
+  level1ApprovedAt?: string | null
+  level2AssignedTo?: { id: string; name: string; position?: string } | null
+  level2ApprovedBy?: string | null
+  level2ApprovedAt?: string | null
   approvedById?: string; approvedBy?: { name: string } | null
   assignedToId?: string; assignedTo?: { id: string; name: string; position?: string } | null
   employee?: { name: string; department?: string }
@@ -54,13 +61,20 @@ interface LeaveData {
 
 interface PermissionData {
   id: string; type: string; date: string; timeFrom: string; timeTo: string; reason: string; status: string
+  currentLevel: number
+  level1AssignedTo?: { id: string; name: string; position?: string } | null
+  level1ApprovedBy?: string | null
+  level1ApprovedAt?: string | null
+  level2AssignedTo?: { id: string; name: string; position?: string } | null
+  level2ApprovedBy?: string | null
+  level2ApprovedAt?: string | null
   approvedById?: string; approvedBy?: { name: string } | null
   assignedToId?: string; assignedTo?: { id: string; name: string; position?: string } | null
   employee?: { name: string; department?: string }
 }
 
 interface ApprovalSettingData {
-  id: string; category: string; requestType: string
+  id: string; category: string; requestType: string; level: number
   approverId: string; approver: { id: string; name: string; position?: string; department?: string }
 }
 
@@ -83,6 +97,8 @@ function formatDateShort(d: string) {
 function StatusBadge({ status }: { status: string }) {
   const c: Record<string, { label: string; cls: string }> = {
     pending: { label: 'قيد المراجعة', cls: 'bg-amber-100 text-amber-800 hover:bg-amber-100' },
+    pending_level1: { label: 'بانتظار المدير المباشر', cls: 'bg-amber-100 text-amber-800 hover:bg-amber-100' },
+    pending_level2: { label: 'بانتظار المعتمد الثاني', cls: 'bg-orange-100 text-orange-800 hover:bg-orange-100' },
     approved: { label: 'معتمد', cls: 'bg-emerald-100 text-emerald-800 hover:bg-emerald-100' },
     rejected: { label: 'مرفوض', cls: 'bg-red-100 text-red-800 hover:bg-red-100' },
     present: { label: 'حاضر', cls: 'bg-emerald-100 text-emerald-800 hover:bg-emerald-100' },
@@ -98,6 +114,82 @@ const LEAVE_TYPES: Record<string, string> = {
 }
 const PERM_TYPES: Record<string, string> = {
   personal: 'إذن شخصي', late: 'تأخير حضور', early: 'انصراف مبكر', errand: 'مأمورية', other: 'أخرى',
+}
+
+// Step/Progress Indicator for two-level approval
+function ApprovalStepIndicator({
+  level1AssignedTo, level1ApprovedBy, level1ApprovedAt,
+  level2AssignedTo, level2ApprovedBy, level2ApprovedAt,
+  status, currentLevel
+}: {
+  level1AssignedTo?: { id: string; name: string; position?: string } | null
+  level1ApprovedBy?: string | null
+  level1ApprovedAt?: string | null
+  level2AssignedTo?: { id: string; name: string; position?: string } | null
+  level2ApprovedBy?: string | null
+  level2ApprovedAt?: string | null
+  status: string
+  currentLevel: number
+}) {
+  const isRejected = status === 'rejected'
+  // Determine level 1 status
+  const l1Approved = !!level1ApprovedBy
+  const l1Rejected = isRejected && currentLevel === 1
+  // Determine level 2 status
+  const l2Approved = !!level2ApprovedBy
+  const l2Rejected = isRejected && currentLevel === 2
+  const l2Waiting = !l2Approved && !l2Rejected && (l1Approved || status === 'pending_level2')
+  const hasL2 = !!level2AssignedTo
+
+  return (
+    <div className="mt-3 space-y-2">
+      {/* Level 1 */}
+      <div className="flex items-center gap-2 text-xs">
+        <div className={`w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 text-[10px] font-bold
+          ${l1Approved ? 'bg-emerald-500 text-white' : l1Rejected ? 'bg-red-500 text-white' : 'bg-amber-400 text-white'}`}>
+          {l1Approved ? '✓' : l1Rejected ? '✗' : '1'}
+        </div>
+        <div className="flex-1 min-w-0">
+          <span className="font-semibold text-gray-700">المرحلة 1: </span>
+          <span className="text-gray-600">{level1AssignedTo?.name || 'المدير المباشر'}</span>
+          {' '}
+          {l1Approved && <span className="text-emerald-600 font-medium">✅ معتمد</span>}
+          {l1Rejected && <span className="text-red-600 font-medium">❌ مرفوض</span>}
+          {!l1Approved && !l1Rejected && <span className="text-amber-600 font-medium">⏳ بانتظار</span>}
+          {l1ApprovedAt && <span className="text-gray-400 text-[10px] mr-1">({formatDateShort(l1ApprovedAt)})</span>}
+        </div>
+      </div>
+
+      {/* Connector line */}
+      <div className="flex mr-2.5">
+        <div className={`w-0.5 h-3 ${l1Approved ? 'bg-emerald-300' : 'bg-gray-200'}`} />
+      </div>
+
+      {/* Level 2 */}
+      <div className="flex items-center gap-2 text-xs">
+        <div className={`w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 text-[10px] font-bold
+          ${l2Approved ? 'bg-emerald-500 text-white' : l2Rejected ? 'bg-red-500 text-white' : l2Waiting ? 'bg-orange-400 text-white' : 'bg-gray-200 text-gray-400'}`}>
+          {l2Approved ? '✓' : l2Rejected ? '✗' : '2'}
+        </div>
+        <div className="flex-1 min-w-0">
+          <span className="font-semibold text-gray-700">المرحلة 2: </span>
+          {hasL2 ? (
+            <>
+              <span className="text-gray-600">{level2AssignedTo?.name || 'غير محدد'}</span>
+              {' '}
+              {l2Approved && <span className="text-emerald-600 font-medium">✅ معتمد</span>}
+              {l2Rejected && <span className="text-red-600 font-medium">❌ مرفوض</span>}
+              {l2Waiting && <span className="text-orange-600 font-medium">⏳ بانتظار</span>}
+              {!l2Approved && !l2Rejected && !l2Waiting && <span className="text-gray-400 font-medium">— ليس بعد</span>}
+              {l2ApprovedAt && <span className="text-gray-400 text-[10px] mr-1">({formatDateShort(l2ApprovedAt)})</span>}
+            </>
+          ) : (
+            <span className="text-gray-400">غير مطلوب (المدير المباشر يعتمد نهائياً)</span>
+          )}
+        </div>
+      </div>
+    </div>
+  )
 }
 
 // ==================== MAIN APP ====================
@@ -153,7 +245,7 @@ export default function AttendanceApp() {
   const [editingEmp, setEditingEmp] = useState<EmployeeList | null>(null)
   const [empForm, setEmpForm] = useState({ name: '', email: '', phone: '', position: '', department: '', role: 'employee', password: '123456', branchId: '', managerId: '' })
   const [showApprovalDialog, setShowApprovalDialog] = useState(false)
-  const [approvalForm, setApprovalForm] = useState({ category: 'leave', requestType: 'annual', approverId: '' })
+  const [approvalForm, setApprovalForm] = useState({ category: 'leave', requestType: 'annual', level: '1', approverId: '' })
 
   useEffect(() => {
     const t = setInterval(() => setCurrentTime(new Date()), 1000)
@@ -297,7 +389,7 @@ export default function AttendanceApp() {
       const r = await fetch('/api/leaves', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ employeeId: employee.id, ...leaveForm }) })
       const d = await r.json()
       if (!r.ok) { toast({ title: 'خطأ', description: d.error, variant: 'destructive' }); return }
-      toast({ title: 'تم بنجاح', description: d.message }); setShowLeaveDialog(false); setLeaveForm({ type: 'annual', startDate: '', endDate: '', reason: '' }); loadLeaves()
+      toast({ title: 'تم تقديم الطلب', description: d.message }); setShowLeaveDialog(false); setLeaveForm({ type: 'annual', startDate: '', endDate: '', reason: '' }); loadLeaves()
     } catch { toast({ title: 'خطأ', variant: 'destructive' }) }
     finally { setIsLoading(false) }
   }
@@ -309,7 +401,7 @@ export default function AttendanceApp() {
       const r = await fetch('/api/permissions', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ employeeId: employee.id, ...permForm }) })
       const d = await r.json()
       if (!r.ok) { toast({ title: 'خطأ', description: d.error, variant: 'destructive' }); return }
-      toast({ title: 'تم بنجاح', description: d.message }); setShowPermDialog(false); setPermForm({ type: 'personal', date: '', timeFrom: '', timeTo: '', reason: '' }); loadPerms()
+      toast({ title: 'تم تقديم الطلب', description: d.message }); setShowPermDialog(false); setPermForm({ type: 'personal', date: '', timeFrom: '', timeTo: '', reason: '' }); loadPerms()
     } catch { toast({ title: 'خطأ', variant: 'destructive' }) }
     finally { setIsLoading(false) }
   }
@@ -353,14 +445,14 @@ export default function AttendanceApp() {
     finally { setIsLoading(false) }
   }
 
-  // Admin: Approval
+  // Admin: Approval (two-level)
   const handleApproval = async (id: string, type: 'approve' | 'reject') => {
     if (!employee) return
     try {
       const r = await fetch('/api/admin/approvals', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id, type, approvedById: employee.id }) })
       const d = await r.json()
       if (!r.ok) { toast({ title: 'خطأ', description: d.error, variant: 'destructive' }); return }
-      toast({ title: 'تم', description: d.message }); loadAdmin()
+      toast({ title: 'تم', description: d.message }); loadAdmin(); loadLeaves(); loadPerms()
     } catch { toast({ title: 'خطأ', variant: 'destructive' }) }
   }
 
@@ -369,12 +461,22 @@ export default function AttendanceApp() {
     if (!employee || !approvalForm.approverId) { toast({ title: 'خطأ', description: 'اختر المعتمد', variant: 'destructive' }); return }
     setIsLoading(true)
     try {
-      const r = await fetch('/api/admin/approval-settings', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ companyId: employee.company.id, ...approvalForm }) })
+      const r = await fetch('/api/admin/approval-settings', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ companyId: employee.company.id, ...approvalForm, level: parseInt(approvalForm.level) }) })
       const d = await r.json()
       if (!r.ok) { toast({ title: 'خطأ', description: d.error, variant: 'destructive' }); return }
       toast({ title: 'تم', description: d.message }); setShowApprovalDialog(false); loadAdmin()
     } catch { toast({ title: 'خطأ', variant: 'destructive' }) }
     finally { setIsLoading(false) }
+  }
+
+  const handleDeleteApprovalSetting = async (id: string) => {
+    if (!employee) return
+    try {
+      const r = await fetch(`/api/admin/approval-settings?id=${id}`, { method: 'DELETE' })
+      const d = await r.json()
+      if (!r.ok) { toast({ title: 'خطأ', description: d.error, variant: 'destructive' }); return }
+      toast({ title: 'تم', description: d.message }); loadAdmin()
+    } catch { toast({ title: 'خطأ', variant: 'destructive' }) }
   }
 
   const handleGetGps = async () => {
@@ -524,9 +626,17 @@ export default function AttendanceApp() {
   const isCheckedOut = !!todayAttendance?.checkOut
   const workingHours = getWorkingHours()
 
-  // Get pending requests assigned to current user (for managers)
-  const myPendingLeaves = allLeaves.filter(l => l.assignedToId === employee.id && l.status === 'pending')
-  const myPendingPerms = allPerms.filter(p => p.assignedToId === employee.id && p.status === 'pending')
+  // Get pending requests assigned to current user at their current level (for managers)
+  const myPendingLeaves = allLeaves.filter(l => {
+    if (l.status === 'pending_level1' && l.level1AssignedTo?.id === employee.id) return true
+    if (l.status === 'pending_level2' && l.level2AssignedTo?.id === employee.id) return true
+    return false
+  })
+  const myPendingPerms = allPerms.filter(p => {
+    if (p.status === 'pending_level1' && p.level1AssignedTo?.id === employee.id) return true
+    if (p.status === 'pending_level2' && p.level2AssignedTo?.id === employee.id) return true
+    return false
+  })
   const pendingCount = myPendingLeaves.length + myPendingPerms.length
 
   return (
@@ -672,9 +782,17 @@ export default function AttendanceApp() {
                         <StatusBadge status={l.status} />
                       </div>
                       <p className="text-xs text-gray-500 bg-gray-50 rounded-lg p-2 mt-2">{l.reason}</p>
-                      {l.assignedTo && l.status === 'pending' && (
-                        <div className="flex items-center gap-1 mt-2 text-xs text-emerald-600"><UserCircle className="w-3 h-3" /><span>موجه إلى: {l.assignedTo.name} {l.assignedTo.position ? `(${l.assignedTo.position})` : ''}</span></div>
-                      )}
+                      {/* Two-level approval progress indicator */}
+                      <ApprovalStepIndicator
+                        level1AssignedTo={l.level1AssignedTo}
+                        level1ApprovedBy={l.level1ApprovedBy}
+                        level1ApprovedAt={l.level1ApprovedAt}
+                        level2AssignedTo={l.level2AssignedTo}
+                        level2ApprovedBy={l.level2ApprovedBy}
+                        level2ApprovedAt={l.level2ApprovedAt}
+                        status={l.status}
+                        currentLevel={l.currentLevel}
+                      />
                     </CardContent>
                   </Card>
                 ))}
@@ -724,9 +842,17 @@ export default function AttendanceApp() {
                         <StatusBadge status={p.status} />
                       </div>
                       <p className="text-xs text-gray-500 bg-gray-50 rounded-lg p-2 mt-2">{p.reason}</p>
-                      {p.assignedTo && p.status === 'pending' && (
-                        <div className="flex items-center gap-1 mt-2 text-xs text-emerald-600"><UserCircle className="w-3 h-3" /><span>موجه إلى: {p.assignedTo.name}</span></div>
-                      )}
+                      {/* Two-level approval progress indicator */}
+                      <ApprovalStepIndicator
+                        level1AssignedTo={p.level1AssignedTo}
+                        level1ApprovedBy={p.level1ApprovedBy}
+                        level1ApprovedAt={p.level1ApprovedAt}
+                        level2AssignedTo={p.level2AssignedTo}
+                        level2ApprovedBy={p.level2ApprovedBy}
+                        level2ApprovedAt={p.level2ApprovedAt}
+                        status={p.status}
+                        currentLevel={p.currentLevel}
+                      />
                     </CardContent>
                   </Card>
                 ))}
@@ -744,8 +870,8 @@ export default function AttendanceApp() {
             <div className="grid grid-cols-4 gap-2">
               <Card className="shadow-sm border-0 bg-emerald-50"><CardContent className="p-2 text-center"><Building2 className="w-4 h-4 text-emerald-600 mx-auto mb-0.5" /><p className="text-base font-bold text-emerald-800">{branches.length}</p><p className="text-[10px] text-emerald-600">فروع</p></CardContent></Card>
               <Card className="shadow-sm border-0 bg-teal-50"><CardContent className="p-2 text-center"><Users className="w-4 h-4 text-teal-600 mx-auto mb-0.5" /><p className="text-base font-bold text-teal-800">{allEmployees.length}</p><p className="text-[10px] text-teal-600">موظفين</p></CardContent></Card>
-              <Card className="shadow-sm border-0 bg-amber-50"><CardContent className="p-2 text-center"><FileText className="w-4 h-4 text-amber-600 mx-auto mb-0.5" /><p className="text-base font-bold text-amber-800">{allLeaves.filter(l => l.status === 'pending').length}</p><p className="text-[10px] text-amber-600">اجازات</p></CardContent></Card>
-              <Card className="shadow-sm border-0 bg-rose-50"><CardContent className="p-2 text-center"><FileCheck className="w-4 h-4 text-rose-600 mx-auto mb-0.5" /><p className="text-base font-bold text-rose-800">{allPerms.filter(p => p.status === 'pending').length}</p><p className="text-[10px] text-rose-600">أذونات</p></CardContent></Card>
+              <Card className="shadow-sm border-0 bg-amber-50"><CardContent className="p-2 text-center"><FileText className="w-4 h-4 text-amber-600 mx-auto mb-0.5" /><p className="text-base font-bold text-amber-800">{allLeaves.filter(l => l.status === 'pending_level1' || l.status === 'pending_level2').length}</p><p className="text-[10px] text-amber-600">اجازات</p></CardContent></Card>
+              <Card className="shadow-sm border-0 bg-rose-50"><CardContent className="p-2 text-center"><FileCheck className="w-4 h-4 text-rose-600 mx-auto mb-0.5" /><p className="text-base font-bold text-rose-800">{allPerms.filter(p => p.status === 'pending_level1' || p.status === 'pending_level2').length}</p><p className="text-[10px] text-rose-600">أذونات</p></CardContent></Card>
             </div>
 
             {/* Admin sub tabs */}
@@ -833,12 +959,12 @@ export default function AttendanceApp() {
             {/* APPROVALS */}
             {adminSub === 'approvals' && (
               <div className="space-y-4">
-                {/* Pending Leaves */}
+                {/* Pending Leaves - filtered by current user's level */}
                 <div>
-                  <h3 className="text-sm font-bold flex items-center gap-2 mb-3"><CalendarDays className="w-4 h-4 text-amber-500" />اجازات معلقة{allLeaves.filter(l => l.status === 'pending').length > 0 && <Badge className="bg-amber-100 text-amber-800">{allLeaves.filter(l => l.status === 'pending').length}</Badge>}</h3>
-                  {allLeaves.filter(l => l.status === 'pending').length === 0 ? <p className="text-xs text-muted-foreground text-center py-3 bg-gray-50 rounded-lg">لا يوجد طلبات معلقة</p> : (
+                  <h3 className="text-sm font-bold flex items-center gap-2 mb-3"><CalendarDays className="w-4 h-4 text-amber-500" />اجازات بانتظار اعتمادك{myPendingLeaves.length > 0 && <Badge className="bg-amber-100 text-amber-800">{myPendingLeaves.length}</Badge>}</h3>
+                  {myPendingLeaves.length === 0 ? <p className="text-xs text-muted-foreground text-center py-3 bg-gray-50 rounded-lg">لا يوجد طلبات معلقة لك</p> : (
                     <div className="space-y-2">
-                      {allLeaves.filter(l => l.status === 'pending').map(l => (
+                      {myPendingLeaves.map(l => (
                         <Card key={l.id} className="shadow-sm border-0">
                           <CardContent className="p-4">
                             <div className="flex items-start justify-between mb-2">
@@ -847,10 +973,25 @@ export default function AttendanceApp() {
                                 <p className="text-xs text-muted-foreground">{LEAVE_TYPES[l.type] || l.type}</p>
                                 <p className="text-xs text-muted-foreground">{formatDateShort(l.startDate)} - {formatDateShort(l.endDate)}</p>
                               </div>
-                              {l.assignedTo && <Badge className="bg-emerald-50 text-emerald-700 text-[10px] flex items-center gap-1"><UserCircle className="w-3 h-3" />{l.assignedTo.name}</Badge>}
+                              <div className="flex flex-col items-end gap-1">
+                                <StatusBadge status={l.status} />
+                                {l.status === 'pending_level1' && l.level1AssignedTo && <Badge className="bg-amber-50 text-amber-700 text-[10px] flex items-center gap-1"><UserCircle className="w-3 h-3" />المرحلة 1: {l.level1AssignedTo.name}</Badge>}
+                                {l.status === 'pending_level2' && l.level2AssignedTo && <Badge className="bg-orange-50 text-orange-700 text-[10px] flex items-center gap-1"><UserCircle className="w-3 h-3" />المرحلة 2: {l.level2AssignedTo.name}</Badge>}
+                              </div>
                             </div>
                             <p className="text-xs text-gray-500 bg-gray-50 rounded-lg p-2 mb-3">{l.reason}</p>
-                            <div className="flex gap-2">
+                            {/* Show progress */}
+                            <ApprovalStepIndicator
+                              level1AssignedTo={l.level1AssignedTo}
+                              level1ApprovedBy={l.level1ApprovedBy}
+                              level1ApprovedAt={l.level1ApprovedAt}
+                              level2AssignedTo={l.level2AssignedTo}
+                              level2ApprovedBy={l.level2ApprovedBy}
+                              level2ApprovedAt={l.level2ApprovedAt}
+                              status={l.status}
+                              currentLevel={l.currentLevel}
+                            />
+                            <div className="flex gap-2 mt-3">
                               <Button size="sm" className="flex-1 bg-emerald-600 hover:bg-emerald-700 h-8 text-xs" onClick={() => handleApproval(l.id, 'approve')}><CheckCircle2 className="w-3 h-3 ml-1" />اعتماد</Button>
                               <Button size="sm" variant="destructive" className="flex-1 h-8 text-xs" onClick={() => handleApproval(l.id, 'reject')}><XCircle className="w-3 h-3 ml-1" />رفض</Button>
                             </div>
@@ -863,12 +1004,12 @@ export default function AttendanceApp() {
 
                 <Separator />
 
-                {/* Pending Permissions */}
+                {/* Pending Permissions - filtered by current user's level */}
                 <div>
-                  <h3 className="text-sm font-bold flex items-center gap-2 mb-3"><FileCheck className="w-4 h-4 text-amber-500" />أذونات معلقة{allPerms.filter(p => p.status === 'pending').length > 0 && <Badge className="bg-amber-100 text-amber-800">{allPerms.filter(p => p.status === 'pending').length}</Badge>}</h3>
-                  {allPerms.filter(p => p.status === 'pending').length === 0 ? <p className="text-xs text-muted-foreground text-center py-3 bg-gray-50 rounded-lg">لا يوجد طلبات معلقة</p> : (
+                  <h3 className="text-sm font-bold flex items-center gap-2 mb-3"><FileCheck className="w-4 h-4 text-amber-500" />أذونات بانتظار اعتمادك{myPendingPerms.length > 0 && <Badge className="bg-amber-100 text-amber-800">{myPendingPerms.length}</Badge>}</h3>
+                  {myPendingPerms.length === 0 ? <p className="text-xs text-muted-foreground text-center py-3 bg-gray-50 rounded-lg">لا يوجد طلبات معلقة لك</p> : (
                     <div className="space-y-2">
-                      {allPerms.filter(p => p.status === 'pending').map(p => (
+                      {myPendingPerms.map(p => (
                         <Card key={p.id} className="shadow-sm border-0">
                           <CardContent className="p-4">
                             <div className="flex items-start justify-between mb-2">
@@ -877,10 +1018,24 @@ export default function AttendanceApp() {
                                 <p className="text-xs text-muted-foreground">{PERM_TYPES[p.type] || p.type}</p>
                                 <p className="text-xs text-muted-foreground">{formatDateShort(p.date)} • {p.timeFrom}-{p.timeTo}</p>
                               </div>
-                              {p.assignedTo && <Badge className="bg-emerald-50 text-emerald-700 text-[10px] flex items-center gap-1"><UserCircle className="w-3 h-3" />{p.assignedTo.name}</Badge>}
+                              <div className="flex flex-col items-end gap-1">
+                                <StatusBadge status={p.status} />
+                                {p.status === 'pending_level1' && p.level1AssignedTo && <Badge className="bg-amber-50 text-amber-700 text-[10px] flex items-center gap-1"><UserCircle className="w-3 h-3" />المرحلة 1: {p.level1AssignedTo.name}</Badge>}
+                                {p.status === 'pending_level2' && p.level2AssignedTo && <Badge className="bg-orange-50 text-orange-700 text-[10px] flex items-center gap-1"><UserCircle className="w-3 h-3" />المرحلة 2: {p.level2AssignedTo.name}</Badge>}
+                              </div>
                             </div>
                             <p className="text-xs text-gray-500 bg-gray-50 rounded-lg p-2 mb-3">{p.reason}</p>
-                            <div className="flex gap-2">
+                            <ApprovalStepIndicator
+                              level1AssignedTo={p.level1AssignedTo}
+                              level1ApprovedBy={p.level1ApprovedBy}
+                              level1ApprovedAt={p.level1ApprovedAt}
+                              level2AssignedTo={p.level2AssignedTo}
+                              level2ApprovedBy={p.level2ApprovedBy}
+                              level2ApprovedAt={p.level2ApprovedAt}
+                              status={p.status}
+                              currentLevel={p.currentLevel}
+                            />
+                            <div className="flex gap-2 mt-3">
                               <Button size="sm" className="flex-1 bg-emerald-600 hover:bg-emerald-700 h-8 text-xs" onClick={() => handleApproval(p.id, 'approve')}><CheckCircle2 className="w-3 h-3 ml-1" />اعتماد</Button>
                               <Button size="sm" variant="destructive" className="flex-1 h-8 text-xs" onClick={() => handleApproval(p.id, 'reject')}><XCircle className="w-3 h-3 ml-1" />رفض</Button>
                             </div>
@@ -890,6 +1045,59 @@ export default function AttendanceApp() {
                     </div>
                   )}
                 </div>
+
+                <Separator />
+
+                {/* All other requests (for admin visibility) */}
+                <div>
+                  <h3 className="text-sm font-bold flex items-center gap-2 mb-3"><FileText className="w-4 h-4 text-gray-400" />جميع الطلبات الأخرى</h3>
+                  {(() => {
+                    const otherLeaves = allLeaves.filter(l =>
+                      (l.status === 'approved' || l.status === 'rejected') ||
+                      (l.status === 'pending_level1' && l.level1AssignedTo?.id !== employee.id) ||
+                      (l.status === 'pending_level2' && l.level2AssignedTo?.id !== employee.id)
+                    )
+                    const otherPerms = allPerms.filter(p =>
+                      (p.status === 'approved' || p.status === 'rejected') ||
+                      (p.status === 'pending_level1' && p.level1AssignedTo?.id !== employee.id) ||
+                      (p.status === 'pending_level2' && p.level2AssignedTo?.id !== employee.id)
+                    )
+                    const others = [...otherLeaves, ...otherPerms]
+                    if (others.length === 0) return <p className="text-xs text-muted-foreground text-center py-3 bg-gray-50 rounded-lg">لا يوجد طلبات أخرى</p>
+                    return (
+                      <ScrollArea className="max-h-96">
+                        <div className="space-y-2">
+                          {otherLeaves.map(l => (
+                            <Card key={l.id} className="shadow-sm border-0 opacity-75">
+                              <CardContent className="p-3">
+                                <div className="flex items-start justify-between">
+                                  <div>
+                                    <p className="text-xs font-semibold">{l.employee?.name} - {LEAVE_TYPES[l.type] || l.type}</p>
+                                    <p className="text-[10px] text-muted-foreground">{formatDateShort(l.startDate)} - {formatDateShort(l.endDate)}</p>
+                                  </div>
+                                  <StatusBadge status={l.status} />
+                                </div>
+                              </CardContent>
+                            </Card>
+                          ))}
+                          {otherPerms.map(p => (
+                            <Card key={p.id} className="shadow-sm border-0 opacity-75">
+                              <CardContent className="p-3">
+                                <div className="flex items-start justify-between">
+                                  <div>
+                                    <p className="text-xs font-semibold">{p.employee?.name} - {PERM_TYPES[p.type] || p.type}</p>
+                                    <p className="text-[10px] text-muted-foreground">{formatDateShort(p.date)} • {p.timeFrom}-{p.timeTo}</p>
+                                  </div>
+                                  <StatusBadge status={p.status} />
+                                </div>
+                              </CardContent>
+                            </Card>
+                          ))}
+                        </div>
+                      </ScrollArea>
+                    )
+                  })()}
+                </div>
               </div>
             )}
 
@@ -897,9 +1105,9 @@ export default function AttendanceApp() {
             {adminSub === 'settings' && (
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
-                  <h3 className="text-sm font-bold flex items-center gap-2"><Network className="w-4 h-4 text-emerald-600" />إعدادات توجيه الطلبات</h3>
+                  <h3 className="text-sm font-bold flex items-center gap-2"><Network className="w-4 h-4 text-emerald-600" />إعدادات الاعتماد ثنائي المستوى</h3>
                   <Dialog open={showApprovalDialog} onOpenChange={setShowApprovalDialog}>
-                    <DialogTrigger asChild><Button size="sm" className="bg-emerald-600 hover:bg-emerald-700 h-8 text-xs" onClick={() => setApprovalForm({ category: 'leave', requestType: 'annual', approverId: '' })}><Plus className="w-3 h-3 ml-1" />قاعدة جديدة</Button></DialogTrigger>
+                    <DialogTrigger asChild><Button size="sm" className="bg-emerald-600 hover:bg-emerald-700 h-8 text-xs" onClick={() => setApprovalForm({ category: 'leave', requestType: 'annual', level: '1', approverId: '' })}><Plus className="w-3 h-3 ml-1" />قاعدة جديدة</Button></DialogTrigger>
                     <DialogContent className="max-w-md" dir="rtl">
                       <DialogHeader><DialogTitle>إضافة قاعدة اعتماد</DialogTitle></DialogHeader>
                       <div className="space-y-4 mt-4">
@@ -920,6 +1128,26 @@ export default function AttendanceApp() {
                             </SelectContent>
                           </Select>
                         </div>
+                        <div className="space-y-2"><Label>مرحلة الاعتماد</Label>
+                          <Select value={approvalForm.level} onValueChange={v => setApprovalForm(p => ({ ...p, level: v }))}>
+                            <SelectTrigger><SelectValue /></SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="1">المرحلة 1 - المدير المباشر</SelectItem>
+                              <SelectItem value="2">المرحلة 2 - المعتمد الثاني</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
+                        {approvalForm.level === '1' ? (
+                          <div className="bg-amber-50 border border-amber-200 rounded-lg p-3 text-xs text-amber-700">
+                            <p className="font-semibold mb-1">المرحلة 1: المدير المباشر</p>
+                            <p>سيتم توجيه الطلب تلقائياً للمدير المباشر للموظف. اختر المعتمد الذي سيمثل دور المدير المباشر.</p>
+                          </div>
+                        ) : (
+                          <div className="bg-orange-50 border border-orange-200 rounded-lg p-3 text-xs text-orange-700">
+                            <p className="font-semibold mb-1">المرحلة 2: المعتمد الثاني</p>
+                            <p>بعد موافقة المدير المباشر، سيتم توجيه الطلب لهذا المعتمد للاعتماد النهائي.</p>
+                          </div>
+                        )}
                         <div className="space-y-2"><Label>المعتمد المسؤول</Label>
                           <Select value={approvalForm.approverId} onValueChange={v => setApprovalForm(p => ({ ...p, approverId: v }))}>
                             <SelectTrigger><SelectValue placeholder="اختر المعتمد" /></SelectTrigger>
@@ -938,44 +1166,110 @@ export default function AttendanceApp() {
                   </Dialog>
                 </div>
 
-                <p className="text-xs text-muted-foreground">حدد مين المسؤول عن اعتماد كل نوع طلب. لو محطتش قاعدة، الطلب هيروح للمدير المباشر.</p>
+                <p className="text-xs text-muted-foreground">حدد المسؤول عن اعتماد كل نوع طلب في كل مرحلة. المرحلة 1 دائماً المدير المباشر، والمرحلة 2 هي الاعتماد النهائي. لو محطتش قاعدة للمرحلة 2، المدير المباشر يعتمد نهائياً.</p>
 
-                {/* Leave settings */}
+                {/* Leave settings - Two-level table */}
                 <div>
                   <h4 className="text-xs font-bold text-emerald-700 mb-2 flex items-center gap-1"><CalendarDays className="w-3 h-3" />اجازات</h4>
-                  <div className="space-y-2">
-                    {approvalSettings.filter(s => s.category === 'leave').map(s => (
-                      <Card key={s.id} className="shadow-sm border-0">
-                        <CardContent className="p-3 flex items-center justify-between">
-                          <div>
-                            <p className="text-sm font-medium">{LEAVE_TYPES[s.requestType] || s.requestType}</p>
-                            <p className="text-xs text-emerald-600 flex items-center gap-1"><UserCircle className="w-3 h-3" />{s.approver.name} {s.approver.position ? `(${s.approver.position})` : ''}</p>
-                          </div>
-                          <Badge className="bg-emerald-50 text-emerald-700 text-[10px]">{s.approver.department || ''}</Badge>
-                        </CardContent>
-                      </Card>
-                    ))}
-                    {approvalSettings.filter(s => s.category === 'leave').length === 0 && <p className="text-xs text-muted-foreground text-center py-2 bg-gray-50 rounded-lg">لا يوجد قواعد - الطلبات هتروح للمدير المباشر</p>}
-                  </div>
+                  <Card className="shadow-sm border-0">
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-xs">
+                        <thead>
+                          <tr className="border-b bg-gray-50">
+                            <th className="text-right py-2 px-3 font-semibold text-gray-600">نوع الطلب</th>
+                            <th className="text-center py-2 px-3 font-semibold text-amber-700">المرحلة 1</th>
+                            <th className="text-center py-2 px-3 font-semibold text-orange-700">المرحلة 2</th>
+                            <th className="text-center py-2 px-1 w-10"></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {Object.entries(LEAVE_TYPES).map(([key, label]) => {
+                            const l1Setting = approvalSettings.find(s => s.category === 'leave' && s.requestType === key && s.level === 1)
+                            const l2Setting = approvalSettings.find(s => s.category === 'leave' && s.requestType === key && s.level === 2)
+                            return (
+                              <tr key={key} className="border-b last:border-0 hover:bg-gray-50">
+                                <td className="py-2 px-3 font-medium text-gray-700">{label}</td>
+                                <td className="py-2 px-3 text-center">
+                                  {l1Setting ? (
+                                    <span className="text-emerald-600 flex items-center justify-center gap-1"><UserCircle className="w-3 h-3" />{l1Setting.approver.name}</span>
+                                  ) : (
+                                    <span className="text-amber-600 font-medium">المدير المباشر</span>
+                                  )}
+                                </td>
+                                <td className="py-2 px-3 text-center">
+                                  {l2Setting ? (
+                                    <span className="text-emerald-600 flex items-center justify-center gap-1"><UserCircle className="w-3 h-3" />{l2Setting.approver.name}</span>
+                                  ) : (
+                                    <span className="text-gray-400">— غير محدد —</span>
+                                  )}
+                                </td>
+                                <td className="py-2 px-1 text-center">
+                                  {(l1Setting || l2Setting) && (
+                                    <div className="flex gap-1 justify-center">
+                                      {l1Setting && <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => handleDeleteApprovalSetting(l1Setting.id)}><Trash2 className="w-3 h-3 text-red-400" /></Button>}
+                                      {l2Setting && <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => handleDeleteApprovalSetting(l2Setting.id)}><Trash2 className="w-3 h-3 text-red-400" /></Button>}
+                                    </div>
+                                  )}
+                                </td>
+                              </tr>
+                            )
+                          })}
+                        </tbody>
+                      </table>
+                    </div>
+                  </Card>
                 </div>
 
-                {/* Permission settings */}
+                {/* Permission settings - Two-level table */}
                 <div>
                   <h4 className="text-xs font-bold text-emerald-700 mb-2 flex items-center gap-1"><FileCheck className="w-3 h-3" />أذونات</h4>
-                  <div className="space-y-2">
-                    {approvalSettings.filter(s => s.category === 'permission').map(s => (
-                      <Card key={s.id} className="shadow-sm border-0">
-                        <CardContent className="p-3 flex items-center justify-between">
-                          <div>
-                            <p className="text-sm font-medium">{PERM_TYPES[s.requestType] || s.requestType}</p>
-                            <p className="text-xs text-emerald-600 flex items-center gap-1"><UserCircle className="w-3 h-3" />{s.approver.name} {s.approver.position ? `(${s.approver.position})` : ''}</p>
-                          </div>
-                          <Badge className="bg-emerald-50 text-emerald-700 text-[10px]">{s.approver.department || ''}</Badge>
-                        </CardContent>
-                      </Card>
-                    ))}
-                    {approvalSettings.filter(s => s.category === 'permission').length === 0 && <p className="text-xs text-muted-foreground text-center py-2 bg-gray-50 rounded-lg">لا يوجد قواعد</p>}
-                  </div>
+                  <Card className="shadow-sm border-0">
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-xs">
+                        <thead>
+                          <tr className="border-b bg-gray-50">
+                            <th className="text-right py-2 px-3 font-semibold text-gray-600">نوع الطلب</th>
+                            <th className="text-center py-2 px-3 font-semibold text-amber-700">المرحلة 1</th>
+                            <th className="text-center py-2 px-3 font-semibold text-orange-700">المرحلة 2</th>
+                            <th className="text-center py-2 px-1 w-10"></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {Object.entries(PERM_TYPES).map(([key, label]) => {
+                            const l1Setting = approvalSettings.find(s => s.category === 'permission' && s.requestType === key && s.level === 1)
+                            const l2Setting = approvalSettings.find(s => s.category === 'permission' && s.requestType === key && s.level === 2)
+                            return (
+                              <tr key={key} className="border-b last:border-0 hover:bg-gray-50">
+                                <td className="py-2 px-3 font-medium text-gray-700">{label}</td>
+                                <td className="py-2 px-3 text-center">
+                                  {l1Setting ? (
+                                    <span className="text-emerald-600 flex items-center justify-center gap-1"><UserCircle className="w-3 h-3" />{l1Setting.approver.name}</span>
+                                  ) : (
+                                    <span className="text-amber-600 font-medium">المدير المباشر</span>
+                                  )}
+                                </td>
+                                <td className="py-2 px-3 text-center">
+                                  {l2Setting ? (
+                                    <span className="text-emerald-600 flex items-center justify-center gap-1"><UserCircle className="w-3 h-3" />{l2Setting.approver.name}</span>
+                                  ) : (
+                                    <span className="text-gray-400">— غير محدد —</span>
+                                  )}
+                                </td>
+                                <td className="py-2 px-1 text-center">
+                                  {(l1Setting || l2Setting) && (
+                                    <div className="flex gap-1 justify-center">
+                                      {l1Setting && <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => handleDeleteApprovalSetting(l1Setting.id)}><Trash2 className="w-3 h-3 text-red-400" /></Button>}
+                                      {l2Setting && <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => handleDeleteApprovalSetting(l2Setting.id)}><Trash2 className="w-3 h-3 text-red-400" /></Button>}
+                                    </div>
+                                  )}
+                                </td>
+                              </tr>
+                            )
+                          })}
+                        </tbody>
+                      </table>
+                    </div>
+                  </Card>
                 </div>
               </div>
             )}
