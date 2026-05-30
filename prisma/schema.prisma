@@ -1,0 +1,107 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Company {
+  id        String   @id @default(cuid())
+  name      String
+  logo      String?
+  workStart String   @default("09:00")
+  workEnd   String   @default("17:00")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  branches  Branch[]
+  employees Employee[]
+}
+
+model Branch {
+  id        String   @id @default(cuid())
+  name      String
+  address   String?
+  latitude  Float
+  longitude Float
+  radius    Float    @default(100.0)
+  companyId String
+  company   Company  @relation(fields: [companyId], references: [id])
+  employees Employee[]
+  attendance Attendance[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Employee {
+  id         String             @id @default(cuid())
+  name       String
+  email      String             @unique
+  phone      String?
+  position   String?
+  department String?
+  role       String             @default("employee")
+  password   String             @default("123456")
+  branchId   String
+  branch     Branch             @relation(fields: [branchId], references: [id])
+  companyId  String
+  company    Company            @relation(fields: [companyId], references: [id])
+  attendance Attendance[]
+  leaves     LeaveRequest[]
+  permissions PermissionRequest[]
+  createdAt  DateTime           @default(now())
+  updatedAt  DateTime           @updatedAt
+}
+
+model Attendance {
+  id               String    @id @default(cuid())
+  employeeId       String
+  employee         Employee  @relation(fields: [employeeId], references: [id])
+  branchId         String
+  branch           Branch    @relation(fields: [branchId], references: [id])
+  workDate         DateTime
+  checkIn          DateTime?
+  checkOut         DateTime?
+  checkInLat       Float?
+  checkInLng       Float?
+  checkOutLat      Float?
+  checkOutLng      Float?
+  checkInDistance   Float?
+  checkOutDistance  Float?
+  status           String    @default("present")
+  notes            String?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+}
+
+model LeaveRequest {
+  id          String    @id @default(cuid())
+  employeeId  String
+  employee    Employee  @relation(fields: [employeeId], references: [id])
+  type        String
+  startDate   DateTime
+  endDate     DateTime
+  reason      String
+  status      String    @default("pending")
+  approvedBy  String?
+  approvedAt  DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model PermissionRequest {
+  id          String    @id @default(cuid())
+  employeeId  String
+  employee    Employee  @relation(fields: [employeeId], references: [id])
+  type        String
+  date        DateTime
+  timeFrom    String
+  timeTo      String
+  reason      String
+  status      String    @default("pending")
+  approvedBy  String?
+  approvedAt  DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
